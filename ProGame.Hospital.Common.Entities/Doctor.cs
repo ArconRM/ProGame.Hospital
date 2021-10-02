@@ -19,7 +19,7 @@ namespace ProGame.Hospital.Common.Entities
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
 
-        public IEnumerable<Specialities> speciality;
-        public Timetable timetable { get; set; }
+        public IEnumerable<Specialities> Speciality;
+        public Timetable Timetable { get; set; }
     }
 }

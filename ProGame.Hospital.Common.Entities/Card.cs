@@ -8,5 +8,6 @@ namespace ProGame.Hospital.Common.Entities
 {
     public class Card
     {
+        public IEnumerable<Appointment> Appointments;
     }
 }
