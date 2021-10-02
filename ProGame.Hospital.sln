@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31515.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BLL", "BLL", "{0A216582-A937-4FD5-9117-02A9E98A2FBC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{DAF6D315-D47A-4BFB-AE59-13678CE1D237}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{9CF4DB74-CDA3-406B-8721-018DC7A33845}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PL", "PL", "{D9D1D6F0-A140-46C9-B10A-82199EF705C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProGame.Hospital.Common.Entities", "ProGame.Hospital.Common.Entities\ProGame.Hospital.Common.Entities.csproj", "{EE77C836-6036-4931-9031-804B6D83F1BD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE77C836-6036-4931-9031-804B6D83F1BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE77C836-6036-4931-9031-804B6D83F1BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE77C836-6036-4931-9031-804B6D83F1BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE77C836-6036-4931-9031-804B6D83F1BD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EE77C836-6036-4931-9031-804B6D83F1BD} = {DAF6D315-D47A-4BFB-AE59-13678CE1D237}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2984D621-2D3A-491A-B6CA-4525E8A1FFE7}
+	EndGlobalSection
+EndGlobal
