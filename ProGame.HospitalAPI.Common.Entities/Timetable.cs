@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProGame.Hospital.Common.Entities
+namespace ProGame.HospitalAPI.Common.Entities
 {
-    public class Card
+    public class Timetable
     {
         public IEnumerable<Appointment> Appointments { get; set; }
-        public Patient Patient { get; set; }
 
     }
 }

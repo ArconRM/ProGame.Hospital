@@ -8,6 +8,7 @@ namespace ProGame.Hospital.Common.Entities
 {
     public class Timetable
     {
-        
+        public IEnumerable<Appointment> Appointments { get; set; }
+
     }
 }

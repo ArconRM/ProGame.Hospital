@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ProGame.HospitalAPI.BLL.Interfaces\ProGame.HospitalAPI.BLL.Interfaces.csproj" />
+    <ProjectReference Include="..\ProGame.HospitalAPI.Common.Entities\ProGame.HospitalAPI.Common.Entities.csproj" />
+    <ProjectReference Include="..\ProGame.HospitalAPI.DAL.Interfaces\ProGame.HospitalAPI.DAL.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>

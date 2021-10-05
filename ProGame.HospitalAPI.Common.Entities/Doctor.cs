@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProGame.Hospital.Common.Entities
+namespace ProGame.HospitalAPI.Common.Entities
 {
     public enum Specialities
     {
