@@ -13,13 +13,13 @@ namespace ProGame.HospitalAPI.Common.Entities
         Psychiatrist,
         Oncologist
     }
-    public class Doctor
+    public class Doctor: BaseEntity
     {
         public string FullName { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
 
         public IEnumerable<Specialities> Speciality { get; set; }
-        public Timetable Timetable { get; set; }
+        public IEnumerable<Record> Records { get; set; }
     }
 }

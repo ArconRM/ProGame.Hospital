@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Progame.HospitalAPI.BLL
+namespace ProGame.HospitalAPI.DAL
 {
-    public class TimetableService
+    public class DoctorDAO
     {
     }
 }

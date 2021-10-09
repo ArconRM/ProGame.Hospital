@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProGame.HospitalAPI.BLL.Interfaces
+namespace ProGame.HospitalAPI.DAL.Interfaces
 {
-    public interface IPatientService
+    public interface IPatientDAO
     {
         void Add(Patient patient);
         void Delete(Patient patient);

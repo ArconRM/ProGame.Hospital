@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Progame.HospitalAPI.BLL
+namespace ProGame.HospitalAPI.Common.Entities
 {
-    public class CardService
+    public abstract class BaseEntity
     {
+        public int Id { get; set; }
     }
 }

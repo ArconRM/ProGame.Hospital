@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProGame.HospitalAPI.DAL.Interfaces
+namespace ProGame.HospitalAPI.DAL
 {
-    public interface IPatientDAL
+    public class AppointmentDAO
     {
     }
 }

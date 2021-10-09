@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace ProGame.HospitalAPI.Common.Entities
 {
-    public class Card
+    public class Record: BaseEntity
     {
-        public IEnumerable<Appointment> Appointments { get; set; }
+        public DateTime Date { get; set; }
+        public Doctor Doctor { get; set; }
         public Patient Patient { get; set; }
 
     }

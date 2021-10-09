@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProGame.HospitalAPI.DAL
 {
-    public class DoctorDAL
+    public class RecordDAO
     {
     }
 }
