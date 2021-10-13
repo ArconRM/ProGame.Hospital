@@ -40,12 +40,37 @@ namespace Progame.HospitalAPI.BLL
 
         public IEnumerable<DateTime> GetGapsByDoctorOnDay(Doctor doctor, DateTime date)
         {
-            var filledGaps = _recordDAO.GetAll().Where(r => r.Date.Date == date.Date && r.Doctor.Id == doctor.Id);
-            var allGaps = new List<DateTime>();
+            var records = _recordDAO.GetAll().Where(r => r.Date.Date == date.Date && r.Doctor.Id == doctor.Id);
+            var gaps = new List<DateTime>();
+            bool isFilled;
+            DateTime newDate = new();
+            int index = 0;
+            //Record record = new();
+            //record.Doctor = doctor;
+
+            newDate.AddDays(date.Day);
+
             for (int i = 9; i < 21; i++)
             {
-                allGaps[i] = filledGaps.Where(hour => hour.Date.Hour != i).FirstOrDefault().; //no хранить часы
+                isFilled = false;
+                for (int a = 0; a < records.Count() - 1; a++)
+                {
+                    if (records.ToArray()[a].Date.Hour == i)
+                    {
+                        isFilled = true;
+                        break;
+                    }
+                }
+
+                if (!isFilled)
+                {
+                    newDate.AddHours(i);
+                    gaps[index] = newDate;
+                    index++;
+                }
+                //gaps[i] = records.Where(hour => hour.Date.Hour != i).FirstOrDefault() != null; 
             }
+            return gaps;
         }
 
         public IEnumerable<DateTime> GetGapsByDoctorOnWeek(Doctor doctor, DateTime dateFrom)
