@@ -6,13 +6,6 @@ using System.Threading.Tasks;
 
 namespace ProGame.HospitalAPI.Common.Entities
 {
-    public enum Specialities
-    {
-        Dentist,
-        Surgeon,
-        Psychiatrist,
-        Oncologist
-    }
     public class Doctor: BaseEntity
     {
         public string FullName { get; set; }

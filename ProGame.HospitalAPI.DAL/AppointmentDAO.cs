@@ -8,5 +8,6 @@ namespace ProGame.HospitalAPI.DAL
 {
     public class AppointmentDAO
     {
+
     }
 }
