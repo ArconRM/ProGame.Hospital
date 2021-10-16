@@ -8,9 +8,17 @@ namespace ProGame.HospitalAPI.Common.Entities
 {
     public class Record: BaseEntity
     {
-        public DateTime Date { get; set; }
-        public Doctor Doctor { get; set; }
-        public Patient Patient { get; set; }
+        public Record(DateTime date, Doctor doctor, Patient patient)
+        {
+            Date = date;
+            Doctor = doctor;
+            Patient = patient;
+        }
+
+        public DateTime Date { get; private set; }
+        public Doctor Doctor { get; private set; }
+        public Patient Patient { get; private set; }
 
     }
+
 }

@@ -12,10 +12,12 @@ namespace Progame.HospitalAPI.BLL
     public class RecordService: IRecordService
     {
         private readonly IRecordDAO _recordDAO;
+        private readonly IDoctorDAO _doctorDAO;
 
-        public RecordService(IRecordDAO recordDAO)
+        public RecordService(IRecordDAO recordDAO, IDoctorDAO doctorDAO)
         {
             _recordDAO = recordDAO;
+            _doctorDAO = doctorDAO;
         }
 
         public void Add(Record record)
@@ -43,14 +45,10 @@ namespace Progame.HospitalAPI.BLL
             var records = _recordDAO.GetAll().Where(r => r.Date.Date == date.Date && r.Doctor.Id == doctor.Id);
             var gaps = new List<DateTime>();
             bool isFilled;
-            int index = 0;
-            //Record record = new();
-            //record.Doctor = doctor;
             
             for (int i = 9; i < 21; i++)
             {
-                DateTime newDate = new();
-                newDate.AddDays(date.Day);
+                DateTime newDate = new DateTime(date.Year,date.Month,date.Day);
 
                 isFilled = false;
 
@@ -66,8 +64,7 @@ namespace Progame.HospitalAPI.BLL
                 if (!isFilled)
                 {
                     newDate.AddHours(i);
-                    gaps[index] = newDate;
-                    index++;
+                    gaps.Add(newDate);
                 }
             }
             return gaps;
@@ -75,17 +72,62 @@ namespace Progame.HospitalAPI.BLL
 
         public IEnumerable<DateTime> GetGapsByDoctorOnWeek(Doctor doctor, DateTime dateFrom)
         {
-            throw new NotImplementedException();
+            var gaps = new List<DateTime>();
+            bool isFilled;
+            DateTime date = new(dateFrom.Year, dateFrom.Month, dateFrom.Day);
+
+            for (int b = 0; b < 7; b++)
+            {
+                var records = _recordDAO.GetAll().Where(r => r.Date.Date == date.Date && r.Doctor.Id == doctor.Id).ToList();
+
+                for (int i = 9; i < 21; i++)
+                {
+                    DateTime newDate = new DateTime(date.Year, date.Month, date.Day);
+
+                    isFilled = false;
+
+                    for (int a = 0; a < records.Count() - 1; a++)
+                    {
+                        if (records[a].Date.Hour == i)
+                        {
+                            isFilled = true;
+                            break;
+                        }
+                    }
+
+                    if (!isFilled)
+                    {
+                        newDate.AddHours(i);
+                        gaps.Add(newDate);
+                    }
+                }
+                date.AddDays(1);
+            }
+            return gaps;
         }
 
         public IDictionary<Doctor, IEnumerable<DateTime>> GetGapsBySpecialityOnDay(Specialities speciality, DateTime date)
         {
-            throw new NotImplementedException();
+            var recordDict = new Dictionary<Doctor, IEnumerable<DateTime>>();
+            var doctors = _doctorDAO.GetAll().Where(d => d.Speciality == speciality).ToList();
+
+            foreach (var doctor in doctors)
+            {
+                recordDict.Add(doctor, GetGapsByDoctorOnDay(doctor, date));
+            }
+            return recordDict;
         }
 
         public IDictionary<Doctor, IEnumerable<DateTime>> GetGapsBySpecialityOnWeek(Specialities speciality, DateTime dateFrom)
         {
-            throw new NotImplementedException();
+            var recordDict = new Dictionary<Doctor, IEnumerable<DateTime>>();
+            var doctors = _doctorDAO.GetAll().Where(d => d.Speciality == speciality).ToList();
+
+            foreach (var doctor in doctors)
+            {
+                recordDict.Add(doctor, GetGapsByDoctorOnWeek(doctor, dateFrom));
+            }
+            return recordDict;
         }
     }
 }
