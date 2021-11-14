@@ -10,9 +10,13 @@ namespace ProGame.HospitalAPI.DAL.Interfaces
     public interface IDoctorDAO
     {
         void Add(Doctor doctor);
+
         void Delete(Doctor doctor);
+
         void Update(Doctor doctor);
+
         IEnumerable<Doctor> GetAll();
+
         Doctor GetById(int id);
     }
 }
