@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.4.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ProGame.HospitalAPI.Common.Entities\ProGame.HospitalAPI.Common.Entities.csproj" />
     <ProjectReference Include="..\ProGame.HospitalAPI.DAL.Interfaces\ProGame.HospitalAPI.DAL.Interfaces.csproj" />
   </ItemGroup>

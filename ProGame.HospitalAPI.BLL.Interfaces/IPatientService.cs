@@ -10,9 +10,13 @@ namespace ProGame.HospitalAPI.BLL.Interfaces
     public interface IPatientService
     {
         void Add(Patient patient);
+
         void Delete(Patient patient);
+
         void Update(Patient patient);
+
         IEnumerable<Patient> GetAll();
+
         Patient GetById(int id);
     }
 }

@@ -12,27 +12,47 @@ namespace ProGame.HospitalAPI.DAL
     {
         public void Add(Doctor doctor)
         {
-            throw new NotImplementedException();
+            using (HospitalAPIContext db = new())
+            {
+                db.Doctors.Add(doctor);
+                db.SaveChanges();
+            }
         }
 
         public void Delete(Doctor doctor)
         {
-            throw new NotImplementedException();
+            using (HospitalAPIContext db = new())
+            {
+                db.Doctors.Remove(doctor);
+                db.SaveChanges();
+            }
         }
 
         public IEnumerable<Doctor> GetAll()
         {
-            throw new NotImplementedException();
+            using (HospitalAPIContext db = new())
+            {
+                return db.Doctors.ToList();
+            }
         }
 
         public Doctor GetById(int id)
         {
-            throw new NotImplementedException();
+            using (HospitalAPIContext db = new())
+            {
+                return db.Doctors.Where(d => d.Id == id).FirstOrDefault();
+            }
         }
 
         public void Update(Doctor doctor)
         {
-            throw new NotImplementedException();
+            using (HospitalAPIContext db = new())
+            {
+                var userToChange = db.Doctors.Where(d => d.Id == doctor.Id).FirstOrDefault();
+                db.Doctors.Remove(userToChange);
+                db.Doctors.Add(doctor);
+                db.SaveChanges();
+            }
         }
     }
 }

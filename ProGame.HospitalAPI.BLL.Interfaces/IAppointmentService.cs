@@ -10,9 +10,13 @@ namespace ProGame.HospitalAPI.BLL.Interfaces
     public interface IAppointmentService
     {
         void Add(Appointment appointment);
+
         void Delete(Appointment appointment);
+
         void Update(Appointment appointment);
+
         IEnumerable<Appointment> GetAll();
+
         Appointment GetById(int id);
     }
 }
