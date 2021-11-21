@@ -2,6 +2,8 @@
 using ProGame.HospitalAPI.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,48 +12,44 @@ namespace ProGame.HospitalAPI.DAL
 {
     public class AppointmentDAO : IAppointmentDAO
     {
-        public void Add(Appointment appointment)
-        {
-            using (HospitalAPIContext db = new())
-            {
-                db.Appointments.Add(appointment);
-                db.SaveChanges();
-            }
-        }
+        private static string _connectionString;
 
-        public void Delete(Appointment appointment)
+        public AppointmentDAO()
         {
-            using (HospitalAPIContext db = new())
-            {
-                db.Appointments.Remove(appointment);
-                db.SaveChanges();
-            }
-        }
-
-        public IEnumerable<Appointment> GetAll()
-        {
-            using (HospitalAPIContext db = new())
-            {
-                return db.Appointments.ToList();
-            }
-        }
-
-        public Appointment GetById(int id)
-        {
-            using (HospitalAPIContext db = new())
-            {
-                return db.Appointments.Where(a => a.Id == id).FirstOrDefault();
-            }
+            _connectionString = Configuration["Connnectionstrings:ConnectionStringHospital"];
         }
 
         public void Update(Appointment appointment)
         {
-            using (HospitalAPIContext db = new())
+            using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                var userToChange = db.Appointments.Where(a => a.Id == appointment.Id).FirstOrDefault();
-                db.Appointments.Remove(userToChange);
-                db.Appointments.Add(appointment);
-                db.SaveChanges();
+                connection.Open();
+                SqlCommand command = new SqlCommand("sp_UpdateAppointmentById", connection);
+
+                command.CommandType = CommandType.StoredProcedure;
+
+                SqlParameter fullNameParam = new SqlParameter
+                {
+                    ParameterName = "@Description",
+                    Value = appointment.Description
+                };
+                command.Parameters.Add(fullNameParam);
+
+                SqlParameter idSpecialityParam = new SqlParameter
+                {
+                    //ParameterName = "@Status",
+                    //Value = appointment.IsCancelled
+                };
+                command.Parameters.Add(idSpecialityParam);
+
+                SqlParameter idParam = new SqlParameter
+                {
+                    ParameterName = "@Id",
+                    SqlDbType = SqlDbType.Int
+                };
+                command.Parameters.Add(idParam);
+
+                command.ExecuteNonQuery();
             }
         }
     }

@@ -15,9 +15,14 @@ namespace ProGame.HospitalAPI.Common.Entities
             Patient = patient;
         }
 
-        public DateTime Date { get; private set; }
-        public Doctor Doctor { get; private set; }
-        public Patient Patient { get; private set; }
+        public Record()
+        {
+
+        }
+
+        public DateTime Date { get; set; }
+        public Doctor Doctor { get; set; }
+        public Patient Patient { get; set; }
 
     }
 

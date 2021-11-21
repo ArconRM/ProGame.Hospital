@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31515.178
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BLL", "BLL", "{0A216582-A937-4FD5-9117-02A9E98A2FBC}"
 EndProject
@@ -23,9 +23,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProGame.HospitalAPI.Common.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DEF96E9A-55E0-4B3F-9EB3-9CB04542CA1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProGame.Hospital.Tests.ServicesTests", "ProGame.Hospital.Tests.ServicesTests\ProGame.Hospital.Tests.ServicesTests.csproj", "{3E090634-D2B1-4158-8A3A-5098DF917B48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProGame.Hospital.Tests.ServicesTests", "ProGame.Hospital.Tests.ServicesTests\ProGame.Hospital.Tests.ServicesTests.csproj", "{3E090634-D2B1-4158-8A3A-5098DF917B48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProGame.HospitalAPI.Common.DependenciesInjection", "ProGame.HospitalAPI.Common.DependenciesInjection\ProGame.HospitalAPI.Common.DependenciesInjection.csproj", "{B2C0504B-E4E6-4711-8A16-8C212CADCBB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProGame.HospitalAPI.Common.DependenciesInjection", "ProGame.HospitalAPI.Common.DependenciesInjection\ProGame.HospitalAPI.Common.DependenciesInjection.csproj", "{B2C0504B-E4E6-4711-8A16-8C212CADCBB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProGame.HospitalAPI.API", "ProGame.HospitalAPI.API\ProGame.HospitalAPI.API.csproj", "{7734E8BC-13DB-4DD6-9A8F-4F57C3F1EC9D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,10 @@ Global
 		{B2C0504B-E4E6-4711-8A16-8C212CADCBB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2C0504B-E4E6-4711-8A16-8C212CADCBB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2C0504B-E4E6-4711-8A16-8C212CADCBB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7734E8BC-13DB-4DD6-9A8F-4F57C3F1EC9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7734E8BC-13DB-4DD6-9A8F-4F57C3F1EC9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7734E8BC-13DB-4DD6-9A8F-4F57C3F1EC9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7734E8BC-13DB-4DD6-9A8F-4F57C3F1EC9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +79,7 @@ Global
 		{5EC46B40-588A-42A8-9F19-B619623C556B} = {DAF6D315-D47A-4BFB-AE59-13678CE1D237}
 		{3E090634-D2B1-4158-8A3A-5098DF917B48} = {DEF96E9A-55E0-4B3F-9EB3-9CB04542CA1C}
 		{B2C0504B-E4E6-4711-8A16-8C212CADCBB4} = {DAF6D315-D47A-4BFB-AE59-13678CE1D237}
+		{7734E8BC-13DB-4DD6-9A8F-4F57C3F1EC9D} = {D9D1D6F0-A140-46C9-B10A-82199EF705C9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2984D621-2D3A-491A-B6CA-4525E8A1FFE7}

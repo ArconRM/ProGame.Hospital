@@ -9,7 +9,7 @@ namespace ProGame.HospitalAPI.DAL.Interfaces
 {
     public interface IRecordDAO
     {
-        void Add(Record record);
+        int Add(Record record);
 
         void Delete(Record record);
 

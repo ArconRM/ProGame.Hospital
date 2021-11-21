@@ -3,7 +3,7 @@ namespace ProGame.HospitalAPI.Common.Entities
 {
     public enum Specialities
     {
-        Dentist,
+        Dentist = 1,
         Surgeon,
         Psychiatrist,
         Oncologist

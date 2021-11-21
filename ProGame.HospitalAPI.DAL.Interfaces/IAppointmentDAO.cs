@@ -9,14 +9,6 @@ namespace ProGame.HospitalAPI.DAL.Interfaces
 {
     public interface IAppointmentDAO
     {
-        void Add(Appointment appointment);
-
-        void Delete(Appointment appointment);
-
         void Update(Appointment appointment);
-
-        IEnumerable<Appointment> GetAll();
-
-        Appointment GetById(int id);
     }
 }

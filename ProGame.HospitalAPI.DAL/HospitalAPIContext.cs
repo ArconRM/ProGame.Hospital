@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ProGame.HospitalAPI.Common.Entities;
+﻿using ProGame.HospitalAPI.Common.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -16,6 +16,11 @@ namespace ProGame.HospitalAPI.Common.Entities
             Appointments = appointments;
         }
 
+        public Patient()
+        {
+
+        }
+
         public string FullName { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }

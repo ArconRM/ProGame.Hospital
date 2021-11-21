@@ -9,7 +9,7 @@ namespace ProGame.HospitalAPI.DAL.Interfaces
 {
     public interface IPatientDAO
     {
-        void Add(Patient patient);
+        int Add(Patient patient);
 
         void Delete(Patient patient);
 

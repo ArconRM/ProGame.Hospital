@@ -14,6 +14,12 @@ namespace ProGame.HospitalAPI.Common.Entities
             Description = description;
             IsCancelled = isCancelled;
         }
+
+        public Appointment()
+        {
+
+        }
+
         public Record Record { get; set; }
         public string Description { get; set; }
         public bool IsCancelled { get; set; }
