@@ -8,11 +8,11 @@ namespace ProGame.HospitalAPI.Common.Entities
 {
     public class Appointment: BaseEntity
     {
-        public Appointment(Record record, string description, bool isCancelled)
+        public Appointment(Record record, string description, Status status)
         {
             Record = record;
             Description = description;
-            IsCancelled = isCancelled;
+            Status = status;
         }
 
         public Appointment()
@@ -22,6 +22,6 @@ namespace ProGame.HospitalAPI.Common.Entities
 
         public Record Record { get; set; }
         public string Description { get; set; }
-        public bool IsCancelled { get; set; }
+        public Status Status { get; set; }
     }
 }

@@ -8,13 +8,13 @@ namespace ProGame.HospitalAPI.Common.Entities
 {
     public class Doctor: BaseEntity
     {
-        public Doctor(string fullName, string phoneNumber, string email, Specialities speciality, IEnumerable<Record> records)
+        public Doctor(string fullName, string phoneNumber, string email, Specialities speciality, IEnumerable<Appointment> appointments)
         {
             FullName = fullName;
             PhoneNumber = phoneNumber;
             Email = email;
             Speciality = speciality;
-            Records = records;
+            Appointments = appointments;
         }
 
         public Doctor()
@@ -26,6 +26,6 @@ namespace ProGame.HospitalAPI.Common.Entities
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public Specialities Speciality { get; set; }
-        public IEnumerable<Record> Records { get; set; }
+        public IEnumerable<Appointment> Appointments { get; set; }
     }
 }

@@ -37,8 +37,8 @@ namespace ProGame.HospitalAPI.DAL
 
                 SqlParameter idSpecialityParam = new SqlParameter
                 {
-                    //ParameterName = "@Status",
-                    //Value = appointment.IsCancelled
+                    ParameterName = "@IdStatus",
+                    Value = (int)appointment.Status
                 };
                 command.Parameters.Add(idSpecialityParam);
 

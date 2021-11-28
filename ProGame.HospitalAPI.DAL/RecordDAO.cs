@@ -14,6 +14,8 @@ namespace ProGame.HospitalAPI.DAL
     {
         private static string _connectionString;
 
+
+
         public RecordDAO()
         {
             _connectionString = Configuration["Connnectionstrings:ConnectionStringHospital"];
@@ -38,14 +40,14 @@ namespace ProGame.HospitalAPI.DAL
                 SqlParameter idPatientParam = new SqlParameter
                 {
                     ParameterName = "@IdPatient",
-                    Value = 
+                    Value = record.Patient.Id
                 };
                 command.Parameters.Add(idPatientParam);
 
                 SqlParameter idDoctorParam = new SqlParameter
                 {
                     ParameterName = "@IdDoctor",
-                    Value = 
+                    Value = record.Doctor.Id
                 };
                 command.Parameters.Add(idDoctorParam);
 
@@ -92,20 +94,79 @@ namespace ProGame.HospitalAPI.DAL
 
                 command.CommandType = CommandType.StoredProcedure;
 
+                var records = new Dictionary<int, Record>();
+                var appointments = new Dictionary<int, Appointment>();
+
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     if (reader.HasRows)
                     {
                         while (reader.Read())
                         {
-                            yield return new Record()
+                            records.Add((int)reader["Id"], new Record()
                             {
                                 Id = (int)reader["Id"],
-                                Date = (Datetime)reader["Date"],
-                                Patient = 
-                                Doctor = 
+                                Date = (DateTime)reader["Date"]
+                            });
+                        }
+                    }
+
+                    reader.NextResult();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            appointments.Add((int)reader["IdRecord"], new Appointment()
+                            {
+                                Description = reader["Description"] as string,
+                                Status = (Status)Enum.Parse(typeof(Status), reader["Name"] as string),
+                                Record = new Record()
+                        });
+                        }
+                    }
+
+                    reader.NextResult();
+
+                    if (reader.HasRows)
+                    {
+                        while(reader.Read())
+                        {
+                            records.Where(r => r.Value.Id == (int)reader["Id"]).FirstOrDefault().Value.Patient = new Patient()
+                            {
+                                Id = (int)(reader["IdPatient"]),
+                                Email = reader["Email"] as string,
+                                PhoneNumber = reader["PhoneNumber"] as string,
+                                FullName = reader["FullName"] as string,
+                                Appointments = new List<Appointment>()
+                            };
+                        }                    
+                    }
+
+                    reader.NextResult();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            records.Where(r => r.Value.Id == (int)reader["Id"]).FirstOrDefault().Value.Doctor = new Doctor()
+                            {
+                                Id = (int)(reader["IdDoctor"]),
+                                Email = reader["Email"] as string,
+                                PhoneNumber = reader["PhoneNumber"] as string,
+                                FullName = reader["FullName"] as string,
+                                Appointments = new List<Appointment>()
                             };
                         }
+                    }
+                }
+
+                foreach (var record in records)
+                {
+                    foreach (var appointment in appointments)
+                    {
+                        record.Value.Appointment = appointments[record.Key];
+                        appointment.Value.Record = records[appointment.Key];
                     }
                 }
             }
@@ -136,7 +197,7 @@ namespace ProGame.HospitalAPI.DAL
                             return new Record()
                             {
                                 Id = (int)reader["Id"],
-                                Date = (Datetime)reader["Date"],
+                                Date = (DateTime)reader["Date"],
                                 Patient =
                                 Doctor =
                             };
