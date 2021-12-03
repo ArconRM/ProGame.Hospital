@@ -94,6 +94,7 @@ namespace ProGame.HospitalAPI.DAL
 
                 command.CommandType = CommandType.StoredProcedure;
 
+                var recordsToReturn = new List<Record>();
                 var records = new Dictionary<int, Record>();
                 var appointments = new Dictionary<int, Appointment>();
 
@@ -168,7 +169,9 @@ namespace ProGame.HospitalAPI.DAL
                         record.Value.Appointment = appointments[record.Key];
                         appointment.Value.Record = records[appointment.Key];
                     }
+                    recordsToReturn.Add(record.Value);
                 }
+                return recordsToReturn;
             }
         }
 
@@ -180,6 +183,9 @@ namespace ProGame.HospitalAPI.DAL
                 SqlCommand command = new SqlCommand("sp_GetRecordById", connection);
 
                 command.CommandType = CommandType.StoredProcedure;
+
+                var record = new Record();
+                var appointment = new Appointment();
 
                 SqlParameter idParam = new SqlParameter
                 {
@@ -194,18 +200,78 @@ namespace ProGame.HospitalAPI.DAL
                     {
                         while (reader.Read())
                         {
-                            return new Record()
+                            record.Id = (int)reader["Id"];
+                            record.Date = (DateTime)reader["Date"];
+                        }
+                    }
+
+                    reader.NextResult();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            appointment.Id = id;
+                            appointment.Description = reader["Description"] as string;
+                            appointment.Status = (Status)Enum.Parse(typeof(Status), reader["Name"] as string);
+                        }
+                    }
+
+                    reader.NextResult();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            record.Patient = new Patient()
                             {
-                                Id = (int)reader["Id"],
-                                Date = (DateTime)reader["Date"],
-                                Patient =
-                                Doctor =
+                                Id = (int)(reader["IdPatient"]),
+                                Email = reader["Email"] as string,
+                                PhoneNumber = reader["PhoneNumber"] as string,
+                                FullName = reader["FullName"] as string,
+                                Appointments = new List<Appointment>()
+                            };
+                        }
+                    }
+
+                    reader.NextResult();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            record.Doctor = new Doctor()
+                            {
+                                Id = (int)(reader["IdDoctor"]),
+                                Email = reader["Email"] as string,
+                                PhoneNumber = reader["PhoneNumber"] as string,
+                                FullName = reader["FullName"] as string,
+                                Appointments = new List<Appointment>()
                             };
                         }
                     }
                 }
+
+                record.Appointment = appointment;
+                appointment.Record = record;
+
+                return record;
+
+                //if (reader.HasRows)
+                //{
+                //    while (reader.Read())
+                //    {
+                //        return new Record()
+                //        {
+                //            Id = (int)reader["Id"],
+                //            Date = (DateTime)reader["Date"],
+                //            Patient =
+                //            Doctor =
+                //        };
+                //    }
+                //}
             }
-            return null;
+            //return null
         }
     }
 }
