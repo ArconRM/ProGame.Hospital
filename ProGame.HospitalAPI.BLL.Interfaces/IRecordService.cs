@@ -9,7 +9,7 @@ namespace ProGame.HospitalAPI.BLL.Interfaces
 {
     public interface IRecordService
     {
-        void Add(Record record);
+        int Add(Record record);
 
         void Delete(Record record);
 

@@ -18,7 +18,7 @@ namespace ProGame.HospitalAPI.DAL
 
         public RecordDAO()
         {
-            _connectionString = Configuration["Connnectionstrings:ConnectionStringHospital"];
+            _connectionString = "Data Source=DESKTOP-ATJ1BBO;Initial Catalog=HospitalDB;Integrated Security=True";
         }
 
         public int Add(Record record)
@@ -70,7 +70,7 @@ namespace ProGame.HospitalAPI.DAL
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand("sp_DeleteRecord", connection);
+                SqlCommand command = new SqlCommand("sp_DeleteRecordById", connection);
 
                 command.CommandType = CommandType.StoredProcedure;
 

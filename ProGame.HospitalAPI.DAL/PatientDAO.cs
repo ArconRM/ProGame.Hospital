@@ -16,7 +16,7 @@ namespace ProGame.HospitalAPI.DAL
 
         public PatientDAO()
         {
-            _connectionString = Configuration["Connnectionstrings:ConnectionStringHospital"];
+            _connectionString = "Data Source=DESKTOP-ATJ1BBO;Initial Catalog=HospitalDB;Integrated Security=True";
         }
 
         public int Add(Patient patient)
@@ -68,7 +68,7 @@ namespace ProGame.HospitalAPI.DAL
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand("sp_DeletePatient", connection);
+                SqlCommand command = new SqlCommand("sp_DeletePatientById", connection);
 
                 command.CommandType = CommandType.StoredProcedure;
 

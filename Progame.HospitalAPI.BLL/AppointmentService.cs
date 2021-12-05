@@ -14,26 +14,6 @@ namespace Progame.HospitalAPI.BLL
             _appointmentDAO = appointmentDAO;
         }
 
-        public void Add(Appointment appointment)
-        {
-            _appointmentDAO.Add(appointment);
-        }
-
-        public void Delete(Appointment appointment)
-        {
-            _appointmentDAO.Delete(appointment);
-        }
-
-        public IEnumerable<Appointment> GetAll()
-        {
-            return _appointmentDAO.GetAll();
-        }
-
-        public Appointment GetById(int id)
-        {
-            return _appointmentDAO.GetById(id);
-        }
-
         public void Update(Appointment appointment)
         {
             _appointmentDAO.Update(appointment);

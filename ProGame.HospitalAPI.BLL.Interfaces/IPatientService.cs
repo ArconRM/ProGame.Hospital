@@ -9,7 +9,7 @@ namespace ProGame.HospitalAPI.BLL.Interfaces
 {
     public interface IPatientService
     {
-        void Add(Patient patient);
+        int Add(Patient patient);
 
         void Delete(Patient patient);
 

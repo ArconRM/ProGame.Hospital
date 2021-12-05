@@ -9,6 +9,7 @@ namespace ProGame.HospitalAPI.DAL.Interfaces
 {
     public interface IAppointmentDAO
     {
+
         void Update(Appointment appointment);
     }
 }

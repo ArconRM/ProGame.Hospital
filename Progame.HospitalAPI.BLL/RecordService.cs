@@ -20,9 +20,9 @@ namespace Progame.HospitalAPI.BLL
             _doctorDAO = doctorDAO;
         }
 
-        public void Add(Record record)
+        public int Add(Record record)
         {
-            _recordDAO.Add(record);
+            return _recordDAO.Add(record);
         }
 
         public void Delete(Record record)

@@ -13,7 +13,7 @@ namespace ProGame.HospitalAPI.Common.DependenciesInjection
 {
     public class DependenciesResolver
     {
-        public static IServiceProvider Kernel { get; set; }
+        public static IServiceProvider Kernel { get; private set; }
         private static IServiceCollection _services { get; set; }
 
         static DependenciesResolver()
@@ -24,15 +24,15 @@ namespace ProGame.HospitalAPI.Common.DependenciesInjection
 
         private static IServiceProvider Config()
         {
-            _services.AddTransient<IAppointmentService, AppointmentService>();
-            _services.AddTransient<IDoctorService, DoctorService>();
-            _services.AddTransient<IPatientService, PatientService>();
-            _services.AddTransient<IRecordService, RecordService>();
-
             _services.AddTransient<IAppointmentDAO, AppointmentDAO>();
             _services.AddTransient<IDoctorDAO, DoctorDAO>();
             _services.AddTransient<IPatientDAO, PatientDAO>();
             _services.AddTransient<IRecordDAO, RecordDAO>();
+
+            _services.AddTransient<IAppointmentService, AppointmentService>();
+            _services.AddTransient<IDoctorService, DoctorService>();
+            _services.AddTransient<IPatientService, PatientService>();
+            _services.AddTransient<IRecordService, RecordService>();
 
             return _services.BuildServiceProvider();
         }

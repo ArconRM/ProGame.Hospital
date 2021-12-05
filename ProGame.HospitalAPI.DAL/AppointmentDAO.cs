@@ -1,5 +1,6 @@
 ﻿using ProGame.HospitalAPI.Common.Entities;
 using ProGame.HospitalAPI.DAL.Interfaces;
+using Microsoft.Extensions.Configuration.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -16,7 +17,7 @@ namespace ProGame.HospitalAPI.DAL
 
         public AppointmentDAO()
         {
-            _connectionString = Configuration["Connnectionstrings:ConnectionStringHospital"];
+            _connectionString = "Data Source=DESKTOP-ATJ1BBO;Initial Catalog=HospitalDB;Integrated Security=True";
         }
 
         public void Update(Appointment appointment)
