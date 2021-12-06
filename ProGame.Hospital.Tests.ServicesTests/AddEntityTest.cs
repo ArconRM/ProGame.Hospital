@@ -108,30 +108,5 @@ namespace ProGame.Hospital.Tests.ServicesTests
             Assert.Pass();
         }
 
-        [Test]
-        public void UpdatePatient()
-        {
-            var patientService = DependenciesResolver.Kernel.GetService<IPatientService>();
-
-            var patient = new Patient()
-            {
-                FullName = "Jeck",
-                Email = "asdfgh4567jk@gmail.com",
-                PhoneNumber = "+32145678901"
-            };
-
-            var id = patientService.Add(patient);
-            var patientDb = patientService.GetById(id);
-            patientService.Update(patient);
-            patientService.Delete(patientDb);
-
-            Assert.IsNotNull(patientDb);
-            Assert.AreEqual(id, patientDb.Id);
-            Assert.AreEqual(patient.FullName, patientDb.FullName);
-            Assert.AreEqual(patient.Email, patientDb.Email);
-            Assert.AreEqual(patient.PhoneNumber, patientDb.PhoneNumber);
-            Assert.Pass();
-
-        }
     }
 }
