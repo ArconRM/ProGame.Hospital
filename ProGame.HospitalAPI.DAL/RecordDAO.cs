@@ -256,22 +256,7 @@ namespace ProGame.HospitalAPI.DAL
                 appointment.Record = record;
 
                 return record;
-
-                //if (reader.HasRows)
-                //{
-                //    while (reader.Read())
-                //    {
-                //        return new Record()
-                //        {
-                //            Id = (int)reader["Id"],
-                //            Date = (DateTime)reader["Date"],
-                //            Patient =
-                //            Doctor =
-                //        };
-                //    }
-                //}
             }
-            //return null
         }
     }
 }
