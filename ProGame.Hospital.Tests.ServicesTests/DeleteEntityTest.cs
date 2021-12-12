@@ -21,17 +21,17 @@ namespace ProGame.Hospital.Tests.ServicesTests
 
             var patient = new Patient()
             {
-                FullName = "John",
+                FullName = "John123",
                 Email = "asdfghjk@gmail.com",
                 PhoneNumber = "+12345678910"
             };
 
             var id = patientService.Add(patient);
+            patient.Id = id;
             patientService.Delete(patient);
             var patientDb = patientService.GetById(id);
 
             Assert.IsNull(patientDb);
-            Assert.Pass();
         }
 
         [Test]
@@ -41,7 +41,6 @@ namespace ProGame.Hospital.Tests.ServicesTests
 
             var doctor = new Doctor()
             {
-                Id = 2,
                 FullName = "John",
                 Email = "asdfghjk@gmail.com",
                 PhoneNumber = "+12345678910",
@@ -49,12 +48,12 @@ namespace ProGame.Hospital.Tests.ServicesTests
             };
 
 
-            var id = doctor.Id;
+            var id = doctorService.Add(doctor);
+            doctor.Id = id; 
             doctorService.Delete(doctor);
             var doctorDb = doctorService.GetById(id);
 
             Assert.IsNull(doctorDb);
-            Assert.Pass();
         }
 
         [Test]
@@ -83,11 +82,11 @@ namespace ProGame.Hospital.Tests.ServicesTests
             };
 
             var id = recordService.Add(record);
+            record.Id = id;
             recordService.Delete(record);
             var recordDb = recordService.GetById(id);
 
             Assert.IsNull(recordDb);
-            Assert.Pass();
         }
     }
 }

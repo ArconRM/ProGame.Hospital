@@ -1,4 +1,5 @@
 ﻿using ProGame.HospitalAPI.BLL.Interfaces;
+using ProGame.HospitalAPI.BLL.Validation;
 using ProGame.HospitalAPI.Common.Entities;
 using ProGame.HospitalAPI.DAL.Interfaces;
 using System;
@@ -18,9 +19,31 @@ namespace Progame.HospitalAPI.BLL
             _doctorDAO = DoctorDAO;
         }
 
-        public int Add(Doctor doctor)
+        public ActionResult<int?> Add(Doctor doctor)
         {
-            return _doctorDAO.Add(doctor);
+            var validator = new DoctorValidator();
+            var validationResult = validator.Validate(doctor);
+
+            if (validationResult.IsValid)
+            {
+                int? id = null;
+                try
+                {
+                    id = _doctorDAO.Add(doctor);
+                }
+                catch (Exception e)
+                {
+                    return new ActionResult<int?>(null, new List<string>()
+                    {
+                        e.Message
+                    });
+                }
+                return new ActionResult<int?>(id, new List<string>());
+            }
+            else
+            {
+                return new ActionResult<int?>(null, validationResult.Errors.Select(e => e.ErrorMessage).ToList());
+            }
         }
 
         public void Delete(Doctor doctor)
@@ -38,9 +61,30 @@ namespace Progame.HospitalAPI.BLL
             return _doctorDAO.GetById(id);
         }
 
-        public void Update(Doctor doctor)
+        public ActionResult<bool> Update(Doctor doctor)
         {
-            _doctorDAO.Update(doctor);
+            var validator = new DoctorValidator();
+            var validationResult = validator.Validate(doctor);
+
+            if (validationResult.IsValid)
+            {
+                try
+                {
+                    _doctorDAO.Update(doctor);
+                }
+                catch (Exception e)
+                {
+                    return new ActionResult<bool>(false, new List<string>()
+                    {
+                        e.Message
+                    });
+                }
+                return new ActionResult<bool>(true, new List<string>());
+            }
+            else
+            {
+                return new ActionResult<bool>(false, validationResult.Errors.Select(e => e.ErrorMessage).ToList());
+            }
         }
     }
 }

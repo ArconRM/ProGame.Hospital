@@ -204,6 +204,7 @@ namespace ProGame.HospitalAPI.DAL
                             record.Date = (DateTime)reader["Date"];
                         }
                     }
+                    else return null;
 
                     reader.NextResult();
 

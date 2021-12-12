@@ -16,7 +16,10 @@ namespace ProGame.HospitalAPI.BLL.Validation
                 .Length(12).WithMessage("PhoneNumber length must be 12");
 
             RuleFor(p => p.FullName).NotEmpty().WithMessage("FullName can't be null")
-                .Length(200).WithMessage("FullName can't be null");
+                .MaximumLength(200).WithMessage("FullName length must be under 200");
+
+            RuleFor(p => p.Email).NotEmpty().WithMessage("Email can't be null")
+              .MaximumLength(100).WithMessage("Email length must be under 200");
 
             RuleFor(p => p.Appointments).NotEmpty().WithMessage("Appointments can't be null");
 

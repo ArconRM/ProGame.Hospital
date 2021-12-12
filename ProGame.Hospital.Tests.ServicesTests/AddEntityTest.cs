@@ -58,12 +58,12 @@ namespace ProGame.Hospital.Tests.ServicesTests
                 Speciality = Specialities.Dentist
             };
 
-            var id = doctorService.Add(doctor);
-            var doctorDb = doctorService.GetById(id);
+            var result = doctorService.Add(doctor);
+            var doctorDb = doctorService.GetById(result.Value ?? 0);
             doctorService.Delete(doctorDb);
 
             Assert.IsNotNull(doctorDb);
-            Assert.AreEqual(id, doctorDb.Id);
+            Assert.AreEqual(result.Value, doctorDb.Id);
             Assert.AreEqual(doctor.FullName, doctorDb.FullName);
             Assert.AreEqual(doctor.Email, doctorDb.Email);
             Assert.AreEqual(doctor.PhoneNumber, doctorDb.PhoneNumber);

@@ -1,7 +1,10 @@
 ﻿using ProGame.HospitalAPI.BLL.Interfaces;
+using ProGame.HospitalAPI.BLL.Validation;
 using ProGame.HospitalAPI.Common.Entities;
 using ProGame.HospitalAPI.DAL.Interfaces;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Progame.HospitalAPI.BLL
 {
@@ -14,9 +17,30 @@ namespace Progame.HospitalAPI.BLL
             _appointmentDAO = appointmentDAO;
         }
 
-        public void Update(Appointment appointment)
+        public ActionResult<bool> Update(Appointment appointment)
         {
-            _appointmentDAO.Update(appointment);
+            var validator = new AppointmentValidator();
+            var validationResult = validator.Validate(appointment);
+
+            if (validationResult.IsValid)
+            {
+                try
+                {
+                    _appointmentDAO.Update(appointment);
+                } 
+                catch(Exception e)
+                {
+                    return new ActionResult<bool>(false, new List<string>()
+                    {
+                        e.Message
+                    });
+                }
+                return new ActionResult<bool>(true, new List<string>());
+            } 
+            else
+            {
+                return new ActionResult<bool>(false, validationResult.Errors.Select(e => e.ErrorMessage).ToList());
+            }
         }
     }
 }

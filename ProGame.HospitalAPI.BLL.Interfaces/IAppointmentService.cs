@@ -9,6 +9,6 @@ namespace ProGame.HospitalAPI.BLL.Interfaces
 {
     public interface IAppointmentService
     {
-        void Update(Appointment appointment);
+        ActionResult<bool> Update(Appointment appointment);
     }
 }

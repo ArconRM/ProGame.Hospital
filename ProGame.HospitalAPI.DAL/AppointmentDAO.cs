@@ -46,7 +46,8 @@ namespace ProGame.HospitalAPI.DAL
                 SqlParameter idParam = new SqlParameter
                 {
                     ParameterName = "@Id",
-                    SqlDbType = SqlDbType.Int
+                    SqlDbType = SqlDbType.Int,
+                    Value = appointment.Id
                 };
                 command.Parameters.Add(idParam);
 

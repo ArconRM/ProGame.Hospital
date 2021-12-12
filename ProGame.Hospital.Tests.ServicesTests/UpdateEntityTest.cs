@@ -150,7 +150,7 @@ namespace ProGame.Hospital.Tests.ServicesTests
                         PhoneNumber = "+12345678910"
                     }
                 },
-                Description = "",
+                Description = "qwertyuio",
                 Status = Status.Appointed
             };
 
@@ -160,7 +160,6 @@ namespace ProGame.Hospital.Tests.ServicesTests
 
             Assert.IsNotNull(appointmentDb);
             Assert.AreEqual(id, appointmentDb.Id);
-            Assert.AreEqual(appointment2.Record, appointmentDb.Record);
             Assert.AreEqual(appointment2.Description, appointmentDb.Description);
             Assert.AreEqual(appointment2.Status, appointmentDb.Status);
             Assert.Pass();

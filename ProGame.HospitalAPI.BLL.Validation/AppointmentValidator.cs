@@ -15,7 +15,7 @@ namespace ProGame.HospitalAPI.BLL.Validation
         {
             RuleFor(a => a.Status).NotEmpty().WithMessage("Status can't be null");
 
-            RuleFor(a => a.Description).Length(1000).WithMessage("Description length must be under 1000");
+            RuleFor(a => a.Description).Length(2000).WithMessage("Description length must be under 2000");
 
             RuleFor(a => a.Record).NotEmpty().WithMessage("Record can't be null");
         }
