@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Progame.HospitalAPI.BLL
 {
-    public class DoctorService: IDoctorService
+    public class DoctorService : IDoctorService
     {
         private readonly IDoctorDAO _doctorDAO;
 
@@ -46,22 +46,7 @@ namespace Progame.HospitalAPI.BLL
             }
         }
 
-        public void Delete(Doctor doctor)
-        {
-            _doctorDAO.Delete(doctor);
-        }
-
-        public IEnumerable<Doctor> GetAll()
-        {
-            return _doctorDAO.GetAll();
-        }
-
-        public Doctor GetById(int id)
-        {
-            return _doctorDAO.GetById(id);
-        }
-
-        public ActionResult<bool> Update(Doctor doctor)
+        public ActionResult<bool> Delete(Doctor doctor)
         {
             var validator = new DoctorValidator();
             var validationResult = validator.Validate(doctor);
@@ -70,7 +55,7 @@ namespace Progame.HospitalAPI.BLL
             {
                 try
                 {
-                    _doctorDAO.Update(doctor);
+                    _doctorDAO.Delete(doctor);
                 }
                 catch (Exception e)
                 {
@@ -86,5 +71,58 @@ namespace Progame.HospitalAPI.BLL
                 return new ActionResult<bool>(false, validationResult.Errors.Select(e => e.ErrorMessage).ToList());
             }
         }
+
+        public IEnumerable<Doctor> GetAll()
+        {
+            return _doctorDAO.GetAll();
+        }
+
+        public Doctor GetById(int id)
+        {
+            var validator = new DoctorValidator();
+            int? id = null;
+            try
+            {
+                id = _doctorDAO.Add(doctor);
+            }
+            catch (Exception e)
+            {
+                return new ActionResult<int?>(null, new List<string>()
+                    {
+                        e.Message
+                    });
+            }
+            return new ActionResult<int?>(id, new List<string>());
+        }
+            else
+            {
+                return new ActionResult<int?>(null, validationResult.Errors.Select(e => e.ErrorMessage).ToList());
+            }
+
+    public ActionResult<bool> Update(Doctor doctor)
+    {
+        var validator = new DoctorValidator();
+        var validationResult = validator.Validate(doctor);
+
+        if (validationResult.IsValid)
+        {
+            try
+            {
+                _doctorDAO.Update(doctor);
+            }
+            catch (Exception e)
+            {
+                return new ActionResult<bool>(false, new List<string>()
+                    {
+                        e.Message
+                    });
+            }
+            return new ActionResult<bool>(true, new List<string>());
+        }
+        else
+        {
+            return new ActionResult<bool>(false, validationResult.Errors.Select(e => e.ErrorMessage).ToList());
+        }
     }
+}
 }
