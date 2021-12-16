@@ -77,27 +77,24 @@ namespace Progame.HospitalAPI.BLL
             return _doctorDAO.GetAll();
         }
 
-        public Doctor GetById(int id)
+        public ActionResult<Doctor> GetById(int id)
         {
             var validator = new DoctorValidator();
-            int? id = null;
+            Doctor doctorToReturn = null;
+
             try
             {
-                id = _doctorDAO.Add(doctor);
+                doctorToReturn = _doctorDAO.GetById(id);
             }
             catch (Exception e)
             {
-                return new ActionResult<int?>(null, new List<string>()
+                return new ActionResult<Doctor>(null, new List<string>()
                     {
                         e.Message
                     });
             }
-            return new ActionResult<int?>(id, new List<string>());
+            return new ActionResult<Doctor>(doctorToReturn, new List<string>());
         }
-            else
-            {
-                return new ActionResult<int?>(null, validationResult.Errors.Select(e => e.ErrorMessage).ToList());
-            }
 
     public ActionResult<bool> Update(Doctor doctor)
     {

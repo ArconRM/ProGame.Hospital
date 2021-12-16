@@ -1,4 +1,5 @@
 ﻿using ProGame.HospitalAPI.BLL.Interfaces;
+using ProGame.HospitalAPI.BLL.Validation;
 using ProGame.HospitalAPI.Common.Entities;
 using ProGame.HospitalAPI.DAL.Interfaces;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Progame.HospitalAPI.BLL
 {
-    public class RecordService: IRecordService
+    public class RecordService : IRecordService
     {
         private readonly IRecordDAO _recordDAO;
         private readonly IDoctorDAO _doctorDAO;
@@ -20,14 +21,57 @@ namespace Progame.HospitalAPI.BLL
             _doctorDAO = doctorDAO;
         }
 
-        public int Add(Record record)
+        public ActionResult<int?> Add(Record record)
         {
-            return _recordDAO.Add(record);
+            var validator = new RecordValidator();
+            var validationResult = validator.Validate(record);
+
+            if (validationResult.IsValid)
+            {
+                int? id = null;
+                try
+                {
+                    id = _recordDAO.Add(record);
+                }
+                catch (Exception e)
+                {
+                    return new ActionResult<int?>(null, new List<string>()
+                    {
+                        e.Message
+                    });
+                }
+                return new ActionResult<int?>(id, new List<string>());
+            }
+            else
+            {
+                return new ActionResult<int?>(null, validationResult.Errors.Select(e => e.ErrorMessage).ToList());
+            }
         }
 
-        public void Delete(Record record)
+        public ActionResult<bool> Delete(Record record)
         {
-            _recordDAO.Delete(record);
+            var validator = new RecordValidator();
+            var validationResult = validator.Validate(record);
+
+            if (validationResult.IsValid)
+            {
+                try
+                {
+                    _recordDAO.Delete(record);
+                }
+                catch (Exception e)
+                {
+                    return new ActionResult<bool>(false, new List<string>()
+                    {
+                        e.Message
+                    });
+                }
+                return new ActionResult<bool>(true, new List<string>());
+            }
+            else
+            {
+                return new ActionResult<bool>(false, validationResult.Errors.Select(e => e.ErrorMessage).ToList());
+            }
         }
 
         public IEnumerable<Record> GetAll()
@@ -35,9 +79,23 @@ namespace Progame.HospitalAPI.BLL
             return _recordDAO.GetAll();
         }
 
-        public Record GetById(int id)
+        public ActionResult<Record> GetById(int id)
         {
-            return _recordDAO.GetById(id);
+            var validator = new DoctorValidator();
+            Record recordToReturn = null;
+
+            try
+            {
+                recordToReturn = _recordDAO.GetById(id);
+            }
+            catch (Exception e)
+            {
+                return new ActionResult<Record>(null, new List<string>()
+                    {
+                        e.Message
+                    });
+            }
+            return new ActionResult<Record>(recordToReturn, new List<string>());
         }
 
         public IEnumerable<DateTime> GetGapsByDoctorOnDay(Doctor doctor, DateTime date)

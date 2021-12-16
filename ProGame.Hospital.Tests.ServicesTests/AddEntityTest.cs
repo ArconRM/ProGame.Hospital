@@ -32,7 +32,10 @@ namespace ProGame.Hospital.Tests.ServicesTests
             };
 
             var id = patientService.Add(patient);
-            var patientDb = patientService.GetById(id);
+            if (id is not null)
+            {
+                var patientDb = patientService.GetById((int)id);
+            }
             patientService.Delete(patientDb);
 
             Assert.IsNotNull(patientDb);

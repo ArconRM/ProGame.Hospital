@@ -13,16 +13,16 @@ namespace ProGame.HospitalAPI.BLL.Interfaces
 
         ActionResult<bool> Delete(Record record);
 
-        ActionResult<IEnumerable<Record>> GetAll();
+        IEnumerable<Record> GetAll();
 
-        ActionResult<IEnumerable<DateTime>> GetGapsByDoctorOnDay(Doctor doctor, DateTime date);
+        IEnumerable<DateTime> GetGapsByDoctorOnDay(Doctor doctor, DateTime date);
 
-        ActionResult<IEnumerable<DateTime>> GetGapsByDoctorOnWeek(Doctor doctor, DateTime dateFrom);
+        IEnumerable<DateTime> GetGapsByDoctorOnWeek(Doctor doctor, DateTime dateFrom);
 
-        ActionResult<IDictionary<Doctor, IEnumerable<DateTime>>> GetGapsBySpecialityOnDay(Specialities speciality, DateTime date);
+        IDictionary<Doctor, IEnumerable<DateTime>> GetGapsBySpecialityOnDay(Specialities speciality, DateTime date);
 
-        ActionResult<IDictionary<Doctor, IEnumerable<DateTime>>> GetGapsBySpecialityOnWeek(Specialities speciality, DateTime dateFrom);
+        IDictionary<Doctor, IEnumerable<DateTime>> GetGapsBySpecialityOnWeek(Specialities speciality, DateTime dateFrom);
 
-        ActionResult<Record> GetById(int id);
+        Record GetById(int id);
     }
 }

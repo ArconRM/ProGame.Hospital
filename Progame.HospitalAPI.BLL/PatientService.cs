@@ -77,9 +77,23 @@ namespace Progame.HospitalAPI.BLL
             return _patientDAO.GetAll();
         }
 
-        public Patient GetById(int id)
+        public ActionResult<Patient> GetById(int id)
         {
-            return _patientDAO.GetById(id);
+            var validator = new PatientValidator();
+            Patient patientToReturn = null;
+
+            try
+            {
+                patientToReturn = _patientDAO.GetById(id);
+            }
+            catch (Exception e)
+            {
+                return new ActionResult<Patient>(null, new List<string>()
+                    {
+                        e.Message
+                    });
+            }
+            return new ActionResult<Patient>(patientToReturn, new List<string>());
         }
 
         public ActionResult<bool> Update(Patient patient)
