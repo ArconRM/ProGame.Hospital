@@ -21,11 +21,11 @@ namespace ProGame.HospitalAPI.DAL
             _connectionString = "Data Source=DESKTOP-ATJ1BBO;Initial Catalog=HospitalDB;Integrated Security=True";
         }
 
-        public int Add(Record record)
+        public async Task<int> AddRecordAsync(Record record)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                connection.Open();
+                await connection.OpenAsync();
                 SqlCommand command = new SqlCommand("sp_AddRecord", connection);
 
                 command.CommandType = CommandType.StoredProcedure;
@@ -59,17 +59,17 @@ namespace ProGame.HospitalAPI.DAL
                 };
                 command.Parameters.Add(idParam);
 
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
 
                 return (int)command.Parameters["@Id"].Value;
             }
         }
 
-        public void Delete(Record record)
+        public async Task DeleteRecordByIdAsync(int id)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                connection.Open();
+                await connection.OpenAsync();
                 SqlCommand command = new SqlCommand("sp_DeleteRecordById", connection);
 
                 command.CommandType = CommandType.StoredProcedure;
@@ -77,19 +77,19 @@ namespace ProGame.HospitalAPI.DAL
                 SqlParameter idParam = new SqlParameter
                 {
                     ParameterName = "@Id",
-                    Value = record.Id
+                    Value = id
                 };
                 command.Parameters.Add(idParam);
 
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
             }
         }
 
-        public IEnumerable<Record> GetAll()
+        public async Task<IEnumerable<Record>> GetAllRecordsAsync()
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                connection.Open();
+                await connection.OpenAsync();
                 SqlCommand command = new SqlCommand("sp_GetRecords", connection);
 
                 command.CommandType = CommandType.StoredProcedure;
@@ -102,7 +102,7 @@ namespace ProGame.HospitalAPI.DAL
                 {
                     if (reader.HasRows)
                     {
-                        while (reader.Read())
+                        while (await reader.ReadAsync())
                         {
                             records.Add((int)reader["Id"], new Record()
                             {
@@ -116,7 +116,7 @@ namespace ProGame.HospitalAPI.DAL
 
                     if (reader.HasRows)
                     {
-                        while (reader.Read())
+                        while (await reader.ReadAsync())
                         {
                             appointments.Add((int)reader["IdRecord"], new Appointment()
                             {
@@ -131,7 +131,7 @@ namespace ProGame.HospitalAPI.DAL
 
                     if (reader.HasRows)
                     {
-                        while(reader.Read())
+                        while (await reader.ReadAsync())
                         {
                             records.Where(r => r.Value.Id == (int)reader["Id"]).FirstOrDefault().Value.Patient = new Patient()
                             {
@@ -148,7 +148,7 @@ namespace ProGame.HospitalAPI.DAL
 
                     if (reader.HasRows)
                     {
-                        while (reader.Read())
+                        while (await reader.ReadAsync())
                         {
                             records.Where(r => r.Value.Id == (int)reader["Id"]).FirstOrDefault().Value.Doctor = new Doctor()
                             {
@@ -175,11 +175,11 @@ namespace ProGame.HospitalAPI.DAL
             }
         }
 
-        public Record GetById(int id)
+        public async Task<Record> GetRecordByIdAsync(int id)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                connection.Open();
+                await connection.OpenAsync();
                 SqlCommand command = new SqlCommand("sp_GetRecordById", connection);
 
                 command.CommandType = CommandType.StoredProcedure;
@@ -198,7 +198,7 @@ namespace ProGame.HospitalAPI.DAL
                 {
                     if (reader.HasRows)
                     {
-                        while (reader.Read())
+                        while (await reader.ReadAsync())
                         {
                             record.Id = (int)reader["Id"];
                             record.Date = (DateTime)reader["Date"];
@@ -210,7 +210,7 @@ namespace ProGame.HospitalAPI.DAL
 
                     if (reader.HasRows)
                     {
-                        while (reader.Read())
+                        while (await reader.ReadAsync())
                         {
                             appointment.Id = id;
                             appointment.Description = reader["Description"] as string;
@@ -222,7 +222,7 @@ namespace ProGame.HospitalAPI.DAL
 
                     if (reader.HasRows)
                     {
-                        while (reader.Read())
+                        while (await reader.ReadAsync())
                         {
                             record.Patient = new Patient()
                             {
@@ -239,7 +239,7 @@ namespace ProGame.HospitalAPI.DAL
 
                     if (reader.HasRows)
                     {
-                        while (reader.Read())
+                        while (await reader.ReadAsync())
                         {
                             record.Doctor = new Doctor()
                             {

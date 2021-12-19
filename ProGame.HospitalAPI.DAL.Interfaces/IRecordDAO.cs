@@ -9,12 +9,12 @@ namespace ProGame.HospitalAPI.DAL.Interfaces
 {
     public interface IRecordDAO
     {
-        int Add(Record record);
+        Task<int> AddRecordAsync(Record record);
 
-        void Delete(Record record);
+        Task DeleteRecordByIdAsync(int id);
 
-        IEnumerable<Record> GetAll();
+        Task<IEnumerable<Record>> GetAllRecordsAsync();
 
-        Record GetById(int id);
+        Task<Record> GetRecordByIdAsync(int id);
     }
 }

@@ -5,6 +5,7 @@ using ProGame.HospitalAPI.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Progame.HospitalAPI.BLL
 {
@@ -17,7 +18,7 @@ namespace Progame.HospitalAPI.BLL
             _appointmentDAO = appointmentDAO;
         }
 
-        public ActionResult<bool> Update(Appointment appointment)
+        public async Task<ActionResult<bool>> Update(Appointment appointment)
         {
             var validator = new AppointmentValidator();
             var validationResult = validator.Validate(appointment);
@@ -26,7 +27,7 @@ namespace Progame.HospitalAPI.BLL
             {
                 try
                 {
-                    _appointmentDAO.Update(appointment);
+                    await _appointmentDAO.UpdateAppointmentAsync(appointment);
                 } 
                 catch(Exception e)
                 {

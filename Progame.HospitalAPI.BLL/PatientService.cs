@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Progame.HospitalAPI.BLL
 {
-    public class PatientService: IPatientService
+    public class PatientService : IPatientService
     {
         private readonly IPatientDAO _patientDAO;
 
@@ -19,7 +19,7 @@ namespace Progame.HospitalAPI.BLL
             _patientDAO = patientDAO;
         }
 
-        public ActionResult<int?> Add(Patient patient)
+        public async Task<ActionResult<int?>> AddPatientAsync(Patient patient)
         {
             var validator = new PatientValidator();
             var validationResult = validator.Validate(patient);
@@ -29,7 +29,7 @@ namespace Progame.HospitalAPI.BLL
                 int? id = null;
                 try
                 {
-                    id = _patientDAO.Add(patient);
+                    id = await _patientDAO.AddPatientAsync(patient);
                 }
                 catch (Exception e)
                 {
@@ -46,45 +46,68 @@ namespace Progame.HospitalAPI.BLL
             }
         }
 
-        public void Delete(Patient patient)
+        public async Task<ActionResult<bool>> Delete(int id)
         {
-            _patientDAO.Delete(patient);
-        }
-
-        public IEnumerable<Patient> GetAll()
-        {
-            return _patientDAO.GetAll();
-        }
-
-        public Patient GetById(int id)
-        {
-            return _patientDAO.GetById(id);
-        }
-
-        public ActionResult<bool> Update(Patient patient)
-        {
-            var validator = new PatientValidator();
-            var validationResult = validator.Validate(patient);
-
-            if (validationResult.IsValid)
+            try
             {
-                try
-                {
-                    _patientDAO.Update(patient);
-                }
-                catch (Exception e)
-                {
-                    return new ActionResult<bool>(false, new List<string>()
+                await _patientDAO.DeletePatientByIdAsync(id);
+            }
+            catch (Exception e)
+            {
+                return new ActionResult<bool>(false, new List<string>()
                     {
                         e.Message
                     });
-                }
-                return new ActionResult<bool>(true, new List<string>());
             }
-            else
+            return new ActionResult<bool>(true, new List<string>());
+        }
+
+        public async Task<ActionResult<IEnumerable<Patient>>> GetAllPatientsAsync()
+        {
+            try
             {
-                return new ActionResult<bool>(false, validationResult.Errors.Select(e => e.ErrorMessage).ToList());
+                var patients = await _patientDAO.GetAllPatientsAsync();
+                return new ActionResult<IEnumerable<Patient>>(patients, new List<string>());
             }
+            catch (Exception e)
+            {
+                return new ActionResult<IEnumerable<Patient>>(null, new List<string>()
+                    {
+                        e.Message
+                    });
+            }
+        }
+
+        public async Task<ActionResult<Patient>> GetPatientByIdAsync(int id)
+        {
+            try
+            {
+                var patient = await _patientDAO.GetPatientByIdAsync(id);
+                return new ActionResult<Patient>(patient, new List<string>());
+            }
+            catch (Exception e)
+            {
+                return new ActionResult<Patient>(null, new List<string>()
+                    {
+                        e.Message
+                    });
+            }
+        }
+
+        public async Task<ActionResult<bool>> UpdatePatientAsync(Patient patient)
+        {
+            try
+            {
+                await _patientDAO.UpdatePatientAsync(patient);
+            }
+            catch (Exception e)
+            {
+                return new ActionResult<bool>(false, new List<string>()
+                    {
+                        e.Message
+                    });
+            }
+            return new ActionResult<bool>(true, new List<string>());
         }
     }
 }

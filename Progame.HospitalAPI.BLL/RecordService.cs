@@ -51,6 +51,28 @@ namespace Progame.HospitalAPI.BLL
         public void Delete(Record record)
         {
             _recordDAO.Delete(record);
+            var validator = new RecordValidator();
+            var validationResult = validator.Validate(record);
+
+            if (validationResult.IsValid)
+            {
+                try
+                {
+                    _recordDAO.Delete(record);
+                }
+                catch (Exception e)
+                {
+                    return new ActionResult<bool>(false, new List<string>()
+                    {
+                        e.Message
+                    });
+                }
+                return new ActionResult<bool>(true, new List<string>());
+            }
+            else
+            {
+                return new ActionResult<bool>(false, validationResult.Errors.Select(e => e.ErrorMessage).ToList());
+            }
         }
 
         public IEnumerable<Record> GetAll()
@@ -60,37 +82,40 @@ namespace Progame.HospitalAPI.BLL
 
         public Record GetById(int id)
         {
-            return _recordDAO.GetById(id);
+            Record recordToReturn = null;
+
+            try
+            {
+                recordToReturn = _recordDAO.GetById(id);
+            }
+            catch (Exception e)
+            {
+                return new ActionResult<Record>(null, new List<string>()
+                    {
+                        e.Message
+                    });
+            }
+            return new ActionResult<Record>(recordToReturn, new List<string>());
+
         }
 
-        public IEnumerable<DateTime> GetGapsByDoctorOnDay(Doctor doctor, DateTime date)
+        public async Task<ActionResult<IEnumerable<DateTime>>> GetGapsByDoctorOnDayAsync(Doctor doctor, DateTime date)
         {
-            var records = _recordDAO.GetAll().Where(r => r.Date.Date == date.Date && r.Doctor.Id == doctor.Id);
-            var gaps = new List<DateTime>();
-            bool isFilled;
-            
-            for (int i = 9; i < 21; i++)
+            try
             {
-                DateTime newDate = new DateTime(date.Year,date.Month,date.Day);
+                var records = await _recordDAO.GetAllRecordsAsync();
+                var recordsByDoctor = records.Where(r => r.Date.Date == date.Date && r.Doctor.Id == doctor.Id);
 
-                isFilled = false;
-
-                for (int a = 0; a < records.Count() - 1; a++)
-                {
-                    if (records.ToArray()[a].Date.Hour == i)
-                    {
-                        isFilled = true;
-                        break;
-                    }
-                }
-
-                if (!isFilled)
-                {
-                    newDate.AddHours(i);
-                    gaps.Add(newDate);
-                }
+                var result = GetGapsByDoctorByDay(recordsByDoctor, date);
+                return new ActionResult<IEnumerable<DateTime>>(result, new List<string>());
             }
-            return gaps;
+            catch(Exception e)
+            {
+                return new ActionResult<IEnumerable<DateTime>>(null, new List<string>()
+                {
+                    e.Message
+                });
+            }
         }
 
         public IEnumerable<DateTime> GetGapsByDoctorOnWeek(Doctor doctor, DateTime dateFrom)
@@ -151,6 +176,36 @@ namespace Progame.HospitalAPI.BLL
                 recordDict.Add(doctor, GetGapsByDoctorOnWeek(doctor, dateFrom));
             }
             return recordDict;
+        }
+
+        private IEnumerable<DateTime> GetGapsByDoctorByDay(IEnumerable<Record> records, DateTime date)
+        {
+            var gaps = new List<DateTime>();
+            bool isFilled;
+
+            for (int i = 9; i < 21; i++)
+            {
+                DateTime newDate = new DateTime(date.Year, date.Month, date.Day);
+
+                isFilled = false;
+
+                for (int a = 0; a < records.Count() - 1; a++)
+                {
+                    if (records.ToArray()[a].Date.Hour == i)
+                    {
+                        isFilled = true;
+                        break;
+                    }
+                }
+
+                if (!isFilled)
+                {
+                    newDate.AddHours(i);
+                    gaps.Add(newDate);
+                }
+            }
+
+            return gaps;
         }
     }
 }

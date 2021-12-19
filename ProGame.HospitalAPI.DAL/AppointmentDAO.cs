@@ -20,11 +20,11 @@ namespace ProGame.HospitalAPI.DAL
             _connectionString = "Data Source=DESKTOP-ATJ1BBO;Initial Catalog=HospitalDB;Integrated Security=True";
         }
 
-        public void Update(Appointment appointment)
+        public async Task UpdateAppointmentAsync(Appointment appointment)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                connection.Open();
+                await connection.OpenAsync();
                 SqlCommand command = new SqlCommand("sp_UpdateAppointmentById", connection);
 
                 command.CommandType = CommandType.StoredProcedure;
@@ -51,7 +51,7 @@ namespace ProGame.HospitalAPI.DAL
                 };
                 command.Parameters.Add(idParam);
 
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
             }
         }
     }

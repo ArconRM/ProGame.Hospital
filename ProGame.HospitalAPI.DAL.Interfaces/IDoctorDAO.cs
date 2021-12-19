@@ -9,14 +9,14 @@ namespace ProGame.HospitalAPI.DAL.Interfaces
 {
     public interface IDoctorDAO
     {
-        int Add(Doctor doctor);
+        Task<int> AddDoctorAsync(Doctor doctor);
 
-        void Delete(Doctor doctor);
+        Task DeleteDoctorByIdAsync(int id);
 
-        void Update(Doctor doctor);
+        Task UpdateDoctorAsync(Doctor doctor);
 
-        IEnumerable<Doctor> GetAll();
+        Task<IEnumerable<Doctor>> GetAllDoctorsAsync();
 
-        Doctor GetById(int id);
+        Task<Doctor> GetDoctorByIdAsync(int id);
     }
 }

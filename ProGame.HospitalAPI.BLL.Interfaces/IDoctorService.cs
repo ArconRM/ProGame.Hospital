@@ -9,14 +9,14 @@ namespace ProGame.HospitalAPI.BLL.Interfaces
 {
     public interface IDoctorService
     {
-        ActionResult<int?> Add(Doctor doctor);
+        Task<ActionResult<int?>> AddDoctorAsync(Doctor doctor);
 
-        void Delete(Doctor doctor);
+        Task<ActionResult<bool>> DeleteDoctorByIdAsync(int id);
 
-        ActionResult<bool> Update(Doctor doctor);
+        Task<ActionResult<bool>> UpdateDoctorAsync(Doctor doctor);
 
-        IEnumerable<Doctor> GetAll();
+        Task<ActionResult<IEnumerable<Doctor>>> GetAllDoctorsAsync();
 
-        Doctor GetById(int id);
+        Task<ActionResult<Doctor>> GetDoctorByIdAsync(int id);
     }
 }

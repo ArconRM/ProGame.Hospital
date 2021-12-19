@@ -19,7 +19,7 @@ namespace Progame.HospitalAPI.BLL
             _doctorDAO = DoctorDAO;
         }
 
-        public ActionResult<int?> Add(Doctor doctor)
+        public async Task<ActionResult<int?>> AddDoctorAsync(Doctor doctor)
         {
             var validator = new DoctorValidator();
             var validationResult = validator.Validate(doctor);
@@ -29,7 +29,7 @@ namespace Progame.HospitalAPI.BLL
                 int? id = null;
                 try
                 {
-                    id = _doctorDAO.Add(doctor);
+                    id = await _doctorDAO.AddDoctorAsync(doctor);
                 }
                 catch (Exception e)
                 {
@@ -46,31 +46,11 @@ namespace Progame.HospitalAPI.BLL
             }
         }
 
-        public void Delete(Doctor doctor)
-        {
-            _doctorDAO.Delete(doctor);
-        }
-
-        public IEnumerable<Doctor> GetAll()
-        {
-            return _doctorDAO.GetAll();
-        }
-
-        public Doctor GetById(int id)
-        {
-            return _doctorDAO.GetById(id);
-        }
-
-    public ActionResult<bool> Update(Doctor doctor)
-    {
-        var validator = new DoctorValidator();
-        var validationResult = validator.Validate(doctor);
-
-        if (validationResult.IsValid)
+        public async Task<ActionResult<bool>> DeleteDoctorByIdAsync(int id)
         {
             try
             {
-                _doctorDAO.Update(doctor);
+                await _doctorDAO.DeleteDoctorByIdAsync(id);
             }
             catch (Exception e)
             {
@@ -81,10 +61,63 @@ namespace Progame.HospitalAPI.BLL
             }
             return new ActionResult<bool>(true, new List<string>());
         }
-        else
+
+        public async Task<ActionResult<IEnumerable<Doctor>>> GetAllDoctorsAsync()
         {
-            return new ActionResult<bool>(false, validationResult.Errors.Select(e => e.ErrorMessage).ToList());
+            try
+            {
+                var doctors = await _doctorDAO.GetAllDoctorsAsync();
+                return new ActionResult<IEnumerable<Doctor>>(doctors, new List<string>());
+            }
+            catch (Exception e)
+            {
+                return new ActionResult<IEnumerable<Doctor>>(null, new List<string>()
+                    {
+                        e.Message
+                    });
+            }
+        }
+
+        public async Task<ActionResult<Doctor>> GetDoctorByIdAsync(int id)
+        {
+            try
+            {
+                var doctor = await _doctorDAO.GetDoctorByIdAsync(id);
+                return new ActionResult<Doctor>(doctor, new List<string>());
+            }
+            catch (Exception e)
+            {
+                return new ActionResult<Doctor>(null, new List<string>()
+                    {
+                        e.Message
+                    });
+            }
+        }
+
+        public async Task<ActionResult<bool>> UpdateDoctorAsync(Doctor doctor)
+        {
+            var validator = new DoctorValidator();
+            var validationResult = validator.Validate(doctor);
+
+            if (validationResult.IsValid)
+            {
+                try
+                {
+                    await _doctorDAO.UpdateDoctorAsync(doctor);
+                }
+                catch (Exception e)
+                {
+                    return new ActionResult<bool>(false, new List<string>()
+                    {
+                        e.Message
+                    });
+                }
+                return new ActionResult<bool>(true, new List<string>());
+            }
+            else
+            {
+                return new ActionResult<bool>(false, validationResult.Errors.Select(e => e.ErrorMessage).ToList());
+            }
         }
     }
-}
 }

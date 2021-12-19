@@ -19,11 +19,11 @@ namespace ProGame.HospitalAPI.DAL
             _connectionString = "Data Source=DESKTOP-ATJ1BBO;Initial Catalog=HospitalDB;Integrated Security=True";
         }
 
-        public int Add(Patient patient)
+        public async Task<int> AddPatientAsync(Patient patient)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                connection.Open();
+                await connection.OpenAsync();
                 SqlCommand command = new SqlCommand("sp_AddPatient", connection);
 
                 command.CommandType = CommandType.StoredProcedure;
@@ -57,17 +57,17 @@ namespace ProGame.HospitalAPI.DAL
                 };
                 command.Parameters.Add(idParam);
 
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
 
                 return (int)command.Parameters["@Id"].Value;
             }
         }
 
-        public void Delete(Patient patient)
+        public async Task DeletePatientByIdAsync(int id)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                connection.Open();
+                await connection.OpenAsync();
                 SqlCommand command = new SqlCommand("sp_DeletePatientById", connection);
 
                 command.CommandType = CommandType.StoredProcedure;
@@ -75,47 +75,50 @@ namespace ProGame.HospitalAPI.DAL
                 SqlParameter idParam = new SqlParameter
                 {
                     ParameterName = "@Id",
-                    Value = patient.Id
+                    Value = id
                 };
                 command.Parameters.Add(idParam);
 
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
             }
         }
 
-        public IEnumerable<Patient> GetAll()
+        public async Task<IEnumerable<Patient>> GetAllPatientsAsync()
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                connection.Open();
+                await connection.OpenAsync();
                 SqlCommand command = new SqlCommand("sp_GetPatients", connection);
 
                 command.CommandType = CommandType.StoredProcedure;
+
+                var result = new List<Patient>();
 
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     if (reader.HasRows)
                     {
-                        while (reader.Read())
+                        while (await reader.ReadAsync())
                         {
-                            yield return new Patient()
+                            result.Add(new Patient()
                             {
                                 Id = (int)reader["Id"],
                                 FullName = reader["FullName"] as string,
                                 PhoneNumber = reader["PhoneNumber"] as string,
                                 Email = reader["Email"] as string
-                            };
+                            });
                         }
                     }
                 }
+                return result;
             }
         }
 
-        public Patient GetById(int id)
+        public async Task<Patient> GetPatientByIdAsync(int id)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                connection.Open();
+                await connection.OpenAsync();
                 SqlCommand command = new SqlCommand("sp_GetPatientById", connection);
 
                 command.CommandType = CommandType.StoredProcedure;
@@ -131,7 +134,7 @@ namespace ProGame.HospitalAPI.DAL
                 {
                     if (reader.HasRows)
                     {
-                        while (reader.Read())
+                        while (await reader.ReadAsync())
                         {
                             return new Patient()
                             {
@@ -147,11 +150,11 @@ namespace ProGame.HospitalAPI.DAL
             return null;
         }
 
-        public void Update(Patient patient)
+        public async Task UpdatePatientAsync(Patient patient)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                connection.Open();
+                await connection.OpenAsync();
                 SqlCommand command = new SqlCommand("sp_UpdatePatientById", connection);
 
                 command.CommandType = CommandType.StoredProcedure;
@@ -185,7 +188,7 @@ namespace ProGame.HospitalAPI.DAL
                 };
                 command.Parameters.Add(idParam);
 
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
             }
         }
     }
