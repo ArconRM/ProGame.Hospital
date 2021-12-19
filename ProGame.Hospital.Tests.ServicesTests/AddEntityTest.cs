@@ -31,15 +31,12 @@ namespace ProGame.Hospital.Tests.ServicesTests
                 PhoneNumber = "+12345678910"
             };
 
-            var id = patientService.Add(patient);
-            if (id is not null)
-            {
-                var patientDb = patientService.GetById((int)id);
-            }
+            var result = patientService.Add(patient);
+            var patientDb = patientService.GetById(result.Value ?? 0);
             patientService.Delete(patientDb);
 
             Assert.IsNotNull(patientDb);
-            Assert.AreEqual(id, patientDb.Id);
+            Assert.AreEqual(result.Value, patientDb.Id);
             Assert.AreEqual(patient.FullName, patientDb.FullName);
             Assert.AreEqual(patient.Email, patientDb.Email);
             Assert.AreEqual(patient.PhoneNumber, patientDb.PhoneNumber);
@@ -99,15 +96,15 @@ namespace ProGame.Hospital.Tests.ServicesTests
                 }
             };
 
-            var id = recordService.Add(record);
-            var recordDb = recordService.GetById(id);
+            var result = recordService.Add(record);
+            var recordDb = recordService.GetById(result.Value ?? 0);
             recordService.Delete(recordDb);
 
             Assert.IsNotNull(recordDb);
-            Assert.AreEqual(id, recordDb.Id);
-            Assert.AreEqual(record.Date, recordDb.Date);
+            Assert.AreEqual(result.Value, recordDb.Id);
             Assert.AreEqual(record.Patient.Id, recordDb.Patient.Id);
             Assert.AreEqual(record.Doctor.Id, recordDb.Doctor.Id);
+            Assert.AreEqual(record.Date, recordDb.Date);
             Assert.Pass();
         }
 

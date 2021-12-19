@@ -11,12 +11,12 @@ namespace ProGame.HospitalAPI.BLL.Interfaces
     {
         ActionResult<int?> Add(Patient patient);
 
-        ActionResult<bool> Delete(Patient patient);
+        void Delete(Patient patient);
 
         ActionResult<bool> Update(Patient patient);
 
         IEnumerable<Patient> GetAll();
 
-        ActionResult<Patient> GetById(int id);
+        Patient GetById(int id);
     }
 }

@@ -31,23 +31,22 @@ namespace ProGame.Hospital.Tests.ServicesTests
                 PhoneNumber = "+12345678901"
             };
 
-
-            var id = patientService.Add(patient1);
+            var result = patientService.Add(patient1);
 
             var patient2 = new Patient()
             {
-                Id = id,
+                Id = result.Value ?? 0,
                 FullName = "Jeck",
                 Email = "asdfgh1234k@gmail.com",
                 PhoneNumber = "+32145678901"
             };
 
             patientService.Update(patient2);
-            var patientDb = patientService.GetById(id);
+            var patientDb = patientService.GetById(result.Value ?? 0);
             patientService.Delete(patient2);
 
             Assert.IsNotNull(patientDb);
-            Assert.AreEqual(id, patientDb.Id);
+            Assert.AreEqual(result.Value, patientDb.Id);
             Assert.AreEqual(patient2.FullName, patientDb.FullName);
             Assert.AreEqual(patient2.Email, patientDb.Email);
             Assert.AreEqual(patient2.PhoneNumber, patientDb.PhoneNumber);
@@ -69,11 +68,11 @@ namespace ProGame.Hospital.Tests.ServicesTests
             };
 
 
-            var id = doctorService.Add(doctor1);
+            var result = doctorService.Add(doctor1);
 
             var doctor2 = new Doctor()
             {
-                Id = id,
+                Id = result.Value ?? 0,
                 FullName = "Jeck",
                 Email = "asdfgh1234k@gmail.com",
                 PhoneNumber = "+32145678901",
@@ -81,11 +80,11 @@ namespace ProGame.Hospital.Tests.ServicesTests
             };
 
             doctorService.Update(doctor2);
-            var doctorDb = doctorService.GetById(id);
+            var doctorDb = doctorService.GetById(result.Value ?? 0);
             doctorService.Delete(doctor2);
 
             Assert.IsNotNull(doctorDb);
-            Assert.AreEqual(id, doctorDb.Id);
+            Assert.AreEqual(result.Value, doctorDb.Id);
             Assert.AreEqual(doctor2.FullName, doctorDb.FullName);
             Assert.AreEqual(doctor2.Email, doctorDb.Email);
             Assert.AreEqual(doctor2.PhoneNumber, doctorDb.PhoneNumber);
@@ -126,11 +125,11 @@ namespace ProGame.Hospital.Tests.ServicesTests
             };
 
 
-            var id = recordService.Add(appointment1.Record);
+            var result = recordService.Add(appointment1.Record);
 
             var appointment2 = new Appointment()
             {
-                Id = id,
+                Id = result.Value ?? 0,
                 Record = new Record()
                 {
                     Date = new DateTime(2021, 12, 05),
@@ -155,11 +154,11 @@ namespace ProGame.Hospital.Tests.ServicesTests
             };
 
             appointmentService.Update(appointment2);
-            var appointmentDb = recordService.GetById(id).Appointment;
+            var appointmentDb = recordService.GetById(result.Value ?? 0).Appointment;
             recordService.Delete(appointment2.Record);
 
             Assert.IsNotNull(appointmentDb);
-            Assert.AreEqual(id, appointmentDb.Id);
+            Assert.AreEqual(result.Value, appointmentDb.Id);
             Assert.AreEqual(appointment2.Description, appointmentDb.Description);
             Assert.AreEqual(appointment2.Status, appointmentDb.Status);
             Assert.Pass();

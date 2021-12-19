@@ -48,30 +48,9 @@ namespace Progame.HospitalAPI.BLL
             }
         }
 
-        public ActionResult<bool> Delete(Record record)
+        public void Delete(Record record)
         {
-            var validator = new RecordValidator();
-            var validationResult = validator.Validate(record);
-
-            if (validationResult.IsValid)
-            {
-                try
-                {
-                    _recordDAO.Delete(record);
-                }
-                catch (Exception e)
-                {
-                    return new ActionResult<bool>(false, new List<string>()
-                    {
-                        e.Message
-                    });
-                }
-                return new ActionResult<bool>(true, new List<string>());
-            }
-            else
-            {
-                return new ActionResult<bool>(false, validationResult.Errors.Select(e => e.ErrorMessage).ToList());
-            }
+            _recordDAO.Delete(record);
         }
 
         public IEnumerable<Record> GetAll()
@@ -79,23 +58,9 @@ namespace Progame.HospitalAPI.BLL
             return _recordDAO.GetAll();
         }
 
-        public ActionResult<Record> GetById(int id)
+        public Record GetById(int id)
         {
-            var validator = new DoctorValidator();
-            Record recordToReturn = null;
-
-            try
-            {
-                recordToReturn = _recordDAO.GetById(id);
-            }
-            catch (Exception e)
-            {
-                return new ActionResult<Record>(null, new List<string>()
-                    {
-                        e.Message
-                    });
-            }
-            return new ActionResult<Record>(recordToReturn, new List<string>());
+            return _recordDAO.GetById(id);
         }
 
         public IEnumerable<DateTime> GetGapsByDoctorOnDay(Doctor doctor, DateTime date)

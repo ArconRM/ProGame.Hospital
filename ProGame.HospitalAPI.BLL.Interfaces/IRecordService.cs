@@ -11,7 +11,7 @@ namespace ProGame.HospitalAPI.BLL.Interfaces
     {
         ActionResult<int?> Add(Record record);
 
-        ActionResult<bool> Delete(Record record);
+        void Delete(Record record);
 
         IEnumerable<Record> GetAll();
 

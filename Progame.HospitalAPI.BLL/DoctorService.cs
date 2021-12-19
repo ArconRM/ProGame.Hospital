@@ -46,30 +46,9 @@ namespace Progame.HospitalAPI.BLL
             }
         }
 
-        public ActionResult<bool> Delete(Doctor doctor)
+        public void Delete(Doctor doctor)
         {
-            var validator = new DoctorValidator();
-            var validationResult = validator.Validate(doctor);
-
-            if (validationResult.IsValid)
-            {
-                try
-                {
-                    _doctorDAO.Delete(doctor);
-                }
-                catch (Exception e)
-                {
-                    return new ActionResult<bool>(false, new List<string>()
-                    {
-                        e.Message
-                    });
-                }
-                return new ActionResult<bool>(true, new List<string>());
-            }
-            else
-            {
-                return new ActionResult<bool>(false, validationResult.Errors.Select(e => e.ErrorMessage).ToList());
-            }
+            _doctorDAO.Delete(doctor);
         }
 
         public IEnumerable<Doctor> GetAll()
@@ -77,23 +56,9 @@ namespace Progame.HospitalAPI.BLL
             return _doctorDAO.GetAll();
         }
 
-        public ActionResult<Doctor> GetById(int id)
+        public Doctor GetById(int id)
         {
-            var validator = new DoctorValidator();
-            Doctor doctorToReturn = null;
-
-            try
-            {
-                doctorToReturn = _doctorDAO.GetById(id);
-            }
-            catch (Exception e)
-            {
-                return new ActionResult<Doctor>(null, new List<string>()
-                    {
-                        e.Message
-                    });
-            }
-            return new ActionResult<Doctor>(doctorToReturn, new List<string>());
+            return _doctorDAO.GetById(id);
         }
 
     public ActionResult<bool> Update(Doctor doctor)

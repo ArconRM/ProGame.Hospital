@@ -26,10 +26,10 @@ namespace ProGame.Hospital.Tests.ServicesTests
                 PhoneNumber = "+12345678910"
             };
 
-            var id = patientService.Add(patient);
-            patient.Id = id;
+            var result = patientService.Add(patient);
+            patient.Id = result.Value ?? 0;
             patientService.Delete(patient);
-            var patientDb = patientService.GetById(id);
+            var patientDb = patientService.GetById(result.Value ?? 0);
 
             Assert.IsNull(patientDb);
         }
@@ -48,10 +48,10 @@ namespace ProGame.Hospital.Tests.ServicesTests
             };
 
 
-            var id = doctorService.Add(doctor);
-            doctor.Id = id; 
+            var result = doctorService.Add(doctor);
+            doctor.Id = result.Value ?? 0;
             doctorService.Delete(doctor);
-            var doctorDb = doctorService.GetById(id);
+            var doctorDb = doctorService.GetById(result.Value ?? 0);
 
             Assert.IsNull(doctorDb);
         }
@@ -81,10 +81,10 @@ namespace ProGame.Hospital.Tests.ServicesTests
                 }
             };
 
-            var id = recordService.Add(record);
-            record.Id = id;
+            var result = recordService.Add(record);
+            record.Id = result.Value ?? 0;
             recordService.Delete(record);
-            var recordDb = recordService.GetById(id);
+            var recordDb = recordService.GetById(result.Value ?? 0);
 
             Assert.IsNull(recordDb);
         }

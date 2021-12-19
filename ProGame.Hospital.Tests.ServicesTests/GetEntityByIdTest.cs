@@ -30,12 +30,12 @@ namespace ProGame.Hospital.Tests.ServicesTests
                 PhoneNumber = "+12345678910"
             };
 
-            var id = patientService.Add(patient);
-            var patientDb = patientService.GetById(id);
-            patientService.Delete(patient);
+            var result = patientService.Add(patient);
+            var patientDb = patientService.GetById(result.Value ?? 0);
+            patientService.Delete(patientDb);
 
             Assert.IsNotNull(patientDb);
-            Assert.AreEqual(id, patientDb.Id);
+            Assert.AreEqual(result.Value, patientDb.Id);
             Assert.AreEqual(patient.FullName, patientDb.FullName);
             Assert.AreEqual(patient.Email, patientDb.Email);
             Assert.AreEqual(patient.PhoneNumber, patientDb.PhoneNumber);
@@ -57,12 +57,12 @@ namespace ProGame.Hospital.Tests.ServicesTests
                 Speciality = Specialities.Dentist
             };
 
-            var id = doctorService.Add(doctor);
-            var doctorDb = doctorService.GetById(id);
-            doctorService.Delete(doctor);
+            var result = doctorService.Add(doctor);
+            var doctorDb = doctorService.GetById(result.Value ?? 0);
+            doctorService.Delete(doctorDb);
 
             Assert.IsNotNull(doctorDb);
-            Assert.AreEqual(id, doctorDb.Id);
+            Assert.AreEqual(result.Value, doctorDb.Id);
             Assert.AreEqual(doctor.FullName, doctorDb.FullName);
             Assert.AreEqual(doctor.Email, doctorDb.Email);
             Assert.AreEqual(doctor.PhoneNumber, doctorDb.PhoneNumber);
@@ -95,12 +95,12 @@ namespace ProGame.Hospital.Tests.ServicesTests
                 }
             };
 
-            var id = recordService.Add(record);
-            var recordDb = recordService.GetById(id);
-            recordService.Delete(record);
+            var result = recordService.Add(record);
+            var recordDb = recordService.GetById(result.Value ?? 0);
+            recordService.Delete(recordDb);
 
             Assert.IsNotNull(recordDb);
-            Assert.AreEqual(id, recordDb.Id);
+            Assert.AreEqual(result.Value, recordDb.Id);
             Assert.AreEqual(record.Date, recordDb.Date);
             Assert.AreEqual(record.Patient.Id, recordDb.Patient.Id);
             Assert.AreEqual(record.Doctor.Id, recordDb.Doctor.Id);
