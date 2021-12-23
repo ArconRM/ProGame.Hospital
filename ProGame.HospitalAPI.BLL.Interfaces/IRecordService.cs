@@ -9,20 +9,20 @@ namespace ProGame.HospitalAPI.BLL.Interfaces
 {
     public interface IRecordService
     {
-        ActionResult<int?> Add(Record record);
+        Task<ActionResult<int?>> AddRecordAsync(Record record);
 
-        Task<ActionResult<bool>> Delete(int id);
+        Task<ActionResult<bool>> DeleteRecordByIdAsync(int id);
 
-        Task<ActionResult<IEnumerable<Record>>> GetAll();
+        Task<ActionResult<IEnumerable<Record>>> GetAllRecordsAsync();
 
-        Task<ActionResult<IEnumerable<DateTime>>> GetGapsByDoctorOnDay(Doctor doctor, DateTime date);
+        Task<ActionResult<IEnumerable<DateTime>>> GetGapsByDoctorOnDayAsync(Doctor doctor, DateTime date);
 
-        Task<ActionResult<IEnumerable<DateTime>>> GetGapsByDoctorOnWeek(Doctor doctor, DateTime dateFrom);
+        Task<ActionResult<IEnumerable<DateTime>>> GetGapsByDoctorOnWeekAsync(Doctor doctor, DateTime dateFrom);
 
-        Task<ActionResult<IDictionary<Doctor, IEnumerable<DateTime>>>> GetGapsBySpecialityOnDay(Specialities speciality, DateTime date);
+        Task<ActionResult<IDictionary<Doctor, IEnumerable<DateTime>>>> GetGapsBySpecialityOnDayAsync(Specialities speciality, DateTime date);
 
-        Task<ActionResult<IDictionary<Doctor, IEnumerable<DateTime>>>> GetGapsBySpecialityOnWeek(Specialities speciality, DateTime dateFrom);
+        Task<ActionResult<IDictionary<Doctor, IEnumerable<DateTime>>>> GetGapsBySpecialityOnWeekAsync(Specialities speciality, DateTime dateFrom);
 
-        Task<ActionResult<Record>> GetById(int id);
+        Task<ActionResult<Record>> GetRecordByIdAsync(int id);
     }
 }

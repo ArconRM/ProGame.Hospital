@@ -70,7 +70,7 @@ namespace ProGame.HospitalAPI.DAL
             }
         }
 
-        public async Task DeleteDoctorAsync(int id)
+        public async Task DeleteDoctorByIdAsync(int id)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {

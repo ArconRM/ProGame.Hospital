@@ -21,7 +21,7 @@ namespace Progame.HospitalAPI.BLL
             _doctorDAO = doctorDAO;
         }
 
-        public ActionResult<int?> Add(Record record)
+        public async Task<ActionResult<int?>> AddRecordAsync(Record record)
         {
             var validator = new RecordValidator();
             var validationResult = validator.Validate(record);
@@ -31,7 +31,7 @@ namespace Progame.HospitalAPI.BLL
                 int? id = null;
                 try
                 {
-                    id = _recordDAO.Add(record);
+                    id = await _recordDAO.AddRecordAsync(record);
                 }
                 catch (Exception e)
                 {
@@ -48,45 +48,44 @@ namespace Progame.HospitalAPI.BLL
             }
         }
 
-        public void Delete(Record record)
+        public async Task<ActionResult<bool>> DeleteRecordByIdAsync(int id)
         {
-            _recordDAO.Delete(record);
-            var validator = new RecordValidator();
-            var validationResult = validator.Validate(record);
-
-            if (validationResult.IsValid)
+            try
             {
-                try
-                {
-                    _recordDAO.Delete(record);
-                }
-                catch (Exception e)
-                {
-                    return new ActionResult<bool>(false, new List<string>()
+                await _recordDAO.DeleteRecordByIdAsync(id);
+            }
+            catch (Exception e)
+            {
+                return new ActionResult<bool>(false, new List<string>()
                     {
                         e.Message
                     });
-                }
-                return new ActionResult<bool>(true, new List<string>());
             }
-            else
-            {
-                return new ActionResult<bool>(false, validationResult.Errors.Select(e => e.ErrorMessage).ToList());
-            }
+            return new ActionResult<bool>(true, new List<string>());
         }
 
-        public IEnumerable<Record> GetAll()
+        public async Task<ActionResult<IEnumerable<Record>>> GetAllRecordsAsync()
         {
-            return _recordDAO.GetAll();
-        }
-
-        public Record GetById(int id)
-        {
-            Record recordToReturn = null;
-
             try
             {
-                recordToReturn = _recordDAO.GetById(id);
+                var records = await _recordDAO.GetAllRecordsAsync();
+                return new ActionResult<IEnumerable<Record>>(records, new List<string>());
+            }
+            catch (Exception e)
+            {
+                return new ActionResult<IEnumerable<Record>>(null, new List<string>()
+                    {
+                        e.Message
+                    });
+            }
+        }
+
+        public async Task<ActionResult<Record>> GetRecordByIdAsync(int id)
+        {
+            try
+            {
+                var record = await _recordDAO.GetRecordByIdAsync(id);
+                return new ActionResult<Record>(record, new List<string>());
             }
             catch (Exception e)
             {
@@ -95,7 +94,6 @@ namespace Progame.HospitalAPI.BLL
                         e.Message
                     });
             }
-            return new ActionResult<Record>(recordToReturn, new List<string>());
 
         }
 
@@ -105,8 +103,8 @@ namespace Progame.HospitalAPI.BLL
             {
                 var records = await _recordDAO.GetAllRecordsAsync();
                 var recordsByDoctor = records.Where(r => r.Date.Date == date.Date && r.Doctor.Id == doctor.Id);
+                var result = GetGapsByDoctorOnDay(recordsByDoctor, date);
 
-                var result = GetGapsByDoctorByDay(recordsByDoctor, date);
                 return new ActionResult<IEnumerable<DateTime>>(result, new List<string>());
             }
             catch(Exception e)
@@ -118,67 +116,81 @@ namespace Progame.HospitalAPI.BLL
             }
         }
 
-        public IEnumerable<DateTime> GetGapsByDoctorOnWeek(Doctor doctor, DateTime dateFrom)
+        public async Task<ActionResult<IEnumerable<DateTime>>> GetGapsByDoctorOnWeekAsync(Doctor doctor, DateTime dateFrom)
         {
-            var gaps = new List<DateTime>();
-            bool isFilled;
-            DateTime date = new(dateFrom.Year, dateFrom.Month, dateFrom.Day);
-
-            for (int b = 0; b < 7; b++)
+            try
             {
-                var records = _recordDAO.GetAll().Where(r => r.Date.Date == date.Date && r.Doctor.Id == doctor.Id).ToList();
+                DateTime date = new(dateFrom.Year, dateFrom.Month, dateFrom.Day);
+                var records = await _recordDAO.GetAllRecordsAsync();
+                var result = new List<DateTime>();
 
-                for (int i = 9; i < 21; i++)
+                for (int i = 0; i < 7; i++)
                 {
-                    DateTime newDate = new DateTime(date.Year, date.Month, date.Day);
-
-                    isFilled = false;
-
-                    for (int a = 0; a < records.Count() - 1; a++)
-                    {
-                        if (records[a].Date.Hour == i)
-                        {
-                            isFilled = true;
-                            break;
-                        }
-                    }
-
-                    if (!isFilled)
-                    {
-                        newDate.AddHours(i);
-                        gaps.Add(newDate);
-                    }
+                    var recordsByDay = records.Where(r => r.Date.Date == date.Date && r.Doctor.Id == doctor.Id);
+                    result = result.Concat(GetGapsByDoctorOnDay(recordsByDay, date)).ToList();
+                    date.AddDays(1);
                 }
-                date.AddDays(1);
+                
+                return new ActionResult<IEnumerable<DateTime>>(result, new List<string>());
             }
-            return gaps;
-        }
-
-        public IDictionary<Doctor, IEnumerable<DateTime>> GetGapsBySpecialityOnDay(Specialities speciality, DateTime date)
-        {
-            var recordDict = new Dictionary<Doctor, IEnumerable<DateTime>>();
-            var doctors = _doctorDAO.GetAll().Where(d => d.Speciality == speciality).ToList();
-
-            foreach (var doctor in doctors)
+            catch (Exception e)
             {
-                recordDict.Add(doctor, GetGapsByDoctorOnDay(doctor, date));
+                return new ActionResult<IEnumerable<DateTime>>(null, new List<string>()
+                {
+                    e.Message
+                });
             }
-            return recordDict;
         }
 
-        public IDictionary<Doctor, IEnumerable<DateTime>> GetGapsBySpecialityOnWeek(Specialities speciality, DateTime dateFrom)
+        public async Task<ActionResult<IDictionary<Doctor, IEnumerable<DateTime>>>> GetGapsBySpecialityOnDayAsync(Specialities speciality, DateTime date)
         {
-            var recordDict = new Dictionary<Doctor, IEnumerable<DateTime>>();
-            var doctors = _doctorDAO.GetAll().Where(d => d.Speciality == speciality).ToList();
-
-            foreach (var doctor in doctors)
+            try
             {
-                recordDict.Add(doctor, GetGapsByDoctorOnWeek(doctor, dateFrom));
+                var recordDict = new Dictionary<Doctor, IEnumerable<DateTime>>();
+                var doctors = await _doctorDAO.GetAllDoctorsAsync();
+                var doctorsBySpeciality = doctors.Where(d => d.Speciality == speciality).ToList();
+
+                foreach (var doctor in doctorsBySpeciality)
+                {
+                    recordDict.Add(doctor, (IEnumerable<DateTime>)GetGapsByDoctorOnDayAsync(doctor, date));
+                }
+                return new ActionResult<IDictionary<Doctor, IEnumerable<DateTime>>>(recordDict, new List<string>());
             }
-            return recordDict;
+            catch (Exception e)
+            {
+                return new ActionResult<IDictionary<Doctor, IEnumerable<DateTime>>>(null, new List<string>()
+                {
+                    e.Message
+                });
+            }
         }
 
-        private IEnumerable<DateTime> GetGapsByDoctorByDay(IEnumerable<Record> records, DateTime date)
+        public async Task<ActionResult<IDictionary<Doctor, IEnumerable<DateTime>>>> GetGapsBySpecialityOnWeekAsync(Specialities speciality, DateTime dateFrom)
+        {
+            try
+            {
+                var recordDict = new Dictionary<Doctor, IEnumerable<DateTime>>();
+                var doctors = await _doctorDAO.GetAllDoctorsAsync();
+                var doctorsBySpeciality = doctors.Where(d => d.Speciality == speciality).ToList();
+
+                foreach (var doctor in doctorsBySpeciality)
+                {
+                    recordDict.Add(doctor, (IEnumerable<DateTime>)GetGapsByDoctorOnWeekAsync(doctor, dateFrom));
+                }
+                return new ActionResult<IDictionary<Doctor, IEnumerable<DateTime>>>(recordDict, new List<string>());
+            }
+            catch (Exception e)
+            {
+                return new ActionResult<IDictionary<Doctor, IEnumerable<DateTime>>>(null, new List<string>()
+                {
+                    e.Message
+                });
+            }
+        }
+
+
+
+        private IEnumerable<DateTime> GetGapsByDoctorOnDay(IEnumerable<Record> records, DateTime date)
         {
             var gaps = new List<DateTime>();
             bool isFilled;
@@ -207,5 +219,38 @@ namespace Progame.HospitalAPI.BLL
 
             return gaps;
         }
+
+        //private IEnumerable<DateTime> GetGapsByDoctorOnWeek(IEnumerable<Record> records, DateTime date)
+        //{
+        //    var gaps = new List<DateTime>();
+        //    bool isFilled;
+
+        //    for (int b = 0; b < 7; b++)
+        //    {
+        //        for (int i = 9; i < 21; i++)
+        //        {
+        //            DateTime newDate = new(date.Year, date.Month, date.Day);
+
+        //            isFilled = false;
+
+        //            for (int a = 0; a < records.Count() - 1; a++)
+        //            {
+        //                if (records.ToArray()[a].Date.Hour == i)
+        //                {
+        //                    isFilled = true;
+        //                    break;
+        //                }
+        //            }
+
+        //            if (!isFilled)
+        //            {
+        //                newDate.AddHours(i);
+        //                gaps.Add(newDate);
+        //            }
+        //        }
+        //        date.AddDays(1);
+        //    }
+        //    return gaps;
+        //}
     }
 }

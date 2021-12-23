@@ -18,7 +18,7 @@ namespace Progame.HospitalAPI.BLL
             _appointmentDAO = appointmentDAO;
         }
 
-        public async Task<ActionResult<bool>> Update(Appointment appointment)
+        public async Task<ActionResult<bool>> UpdateAppointmentAsync(Appointment appointment)
         {
             var validator = new AppointmentValidator();
             var validationResult = validator.Validate(appointment);

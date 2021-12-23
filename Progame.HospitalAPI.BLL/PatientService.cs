@@ -46,7 +46,7 @@ namespace Progame.HospitalAPI.BLL
             }
         }
 
-        public async Task<ActionResult<bool>> Delete(int id)
+        public async Task<ActionResult<bool>> DeletePatientByIdAsync(int id)
         {
             try
             {

@@ -31,15 +31,15 @@ namespace ProGame.Hospital.Tests.ServicesTests
                 PhoneNumber = "+12345678910"
             };
 
-            var result = patientService.Add(patient);
-            var patientDb = patientService.GetById(result.Value ?? 0);
-            patientService.Delete(patientDb);
+            var result = patientService.AddPatientAsync(patient);
+            var patientDb = patientService.GetPatientByIdAsync(result.Result.Value ?? 0);
+            patientService.DeletePatientByIdAsync(patientDb.Id);
 
             Assert.IsNotNull(patientDb);
-            Assert.AreEqual(result.Value, patientDb.Id);
-            Assert.AreEqual(patient.FullName, patientDb.FullName);
-            Assert.AreEqual(patient.Email, patientDb.Email);
-            Assert.AreEqual(patient.PhoneNumber, patientDb.PhoneNumber);
+            Assert.AreEqual(result.Result.Value, patientDb.Id);
+            Assert.AreEqual(patient.FullName, patientDb.Result.Value.FullName);
+            Assert.AreEqual(patient.Email, patientDb.Result.Value.Email);
+            Assert.AreEqual(patient.PhoneNumber, patientDb.Result.Value.PhoneNumber);
             Assert.Pass();
         }
 
@@ -58,16 +58,16 @@ namespace ProGame.Hospital.Tests.ServicesTests
                 Speciality = Specialities.Dentist
             };
 
-            var result = doctorService.Add(doctor);
-            var doctorDb = doctorService.GetById(result.Value ?? 0);
-            doctorService.Delete(doctorDb);
+            var result = doctorService.AddDoctorAsync(doctor);
+            var doctorDb = doctorService.GetDoctorByIdAsync(result.Result.Value ?? 0);
+            doctorService.DeleteDoctorByIdAsync(doctorDb.Id);
 
             Assert.IsNotNull(doctorDb);
-            Assert.AreEqual(result.Value, doctorDb.Id);
-            Assert.AreEqual(doctor.FullName, doctorDb.FullName);
-            Assert.AreEqual(doctor.Email, doctorDb.Email);
-            Assert.AreEqual(doctor.PhoneNumber, doctorDb.PhoneNumber);
-            Assert.AreEqual(doctor.Speciality, doctorDb.Speciality);
+            Assert.AreEqual(result.Result.Value, doctorDb.Id);
+            Assert.AreEqual(doctor.FullName, doctorDb.Result.Value.FullName);
+            Assert.AreEqual(doctor.Email, doctorDb.Result.Value.Email);
+            Assert.AreEqual(doctor.PhoneNumber, doctorDb.Result.Value.PhoneNumber);
+            Assert.AreEqual(doctor.Speciality, doctorDb.Result.Value.Speciality);
             Assert.Pass();
         }
 
@@ -96,15 +96,15 @@ namespace ProGame.Hospital.Tests.ServicesTests
                 }
             };
 
-            var result = recordService.Add(record);
-            var recordDb = recordService.GetById(result.Value ?? 0);
-            recordService.Delete(recordDb);
+            var result = recordService.AddRecordAsync(record);
+            var recordDb = recordService.GetRecordByIdAsync(result.Result.Value ?? 0);
+            recordService.DeleteRecordByIdAsync(recordDb.Id);
 
             Assert.IsNotNull(recordDb);
-            Assert.AreEqual(result.Value, recordDb.Id);
-            Assert.AreEqual(record.Patient.Id, recordDb.Patient.Id);
-            Assert.AreEqual(record.Doctor.Id, recordDb.Doctor.Id);
-            Assert.AreEqual(record.Date, recordDb.Date);
+            Assert.AreEqual(result.Result.Value, recordDb.Id);
+            Assert.AreEqual(record.Patient.Id, recordDb.Result.Value.Patient.Id);
+            Assert.AreEqual(record.Doctor.Id, recordDb.Result.Value.Doctor.Id);
+            Assert.AreEqual(record.Date, recordDb.Result.Value.Date);
             Assert.Pass();
         }
 

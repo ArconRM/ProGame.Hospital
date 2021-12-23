@@ -26,10 +26,10 @@ namespace ProGame.Hospital.Tests.ServicesTests
                 PhoneNumber = "+12345678910"
             };
 
-            var result = patientService.Add(patient);
-            patient.Id = result.Value ?? 0;
-            patientService.Delete(patient);
-            var patientDb = patientService.GetById(result.Value ?? 0);
+            var result = patientService.AddPatientAsync(patient);
+            patient.Id = result.Result.Value ?? 0;
+            patientService.DeletePatientByIdAsync(patient.Id);
+            var patientDb = patientService.GetPatientByIdAsync(result.Result.Value ?? 0);
 
             Assert.IsNull(patientDb);
         }
@@ -48,10 +48,10 @@ namespace ProGame.Hospital.Tests.ServicesTests
             };
 
 
-            var result = doctorService.Add(doctor);
-            doctor.Id = result.Value ?? 0;
-            doctorService.Delete(doctor);
-            var doctorDb = doctorService.GetById(result.Value ?? 0);
+            var result = doctorService.AddDoctorAsync(doctor);
+            doctor.Id = result.Result.Value ?? 0;
+            doctorService.DeleteDoctorByIdAsync(doctor.Id);
+            var doctorDb = doctorService.GetDoctorByIdAsync(result.Result.Value ?? 0);
 
             Assert.IsNull(doctorDb);
         }
@@ -81,10 +81,10 @@ namespace ProGame.Hospital.Tests.ServicesTests
                 }
             };
 
-            var result = recordService.Add(record);
-            record.Id = result.Value ?? 0;
-            recordService.Delete(record);
-            var recordDb = recordService.GetById(result.Value ?? 0);
+            var result = recordService.AddRecordAsync(record);
+            record.Id = result.Result.Value ?? 0;
+            recordService.DeleteRecordByIdAsync(record.Id);
+            var recordDb = recordService.GetRecordByIdAsync(result.Result.Value ?? 0);
 
             Assert.IsNull(recordDb);
         }
