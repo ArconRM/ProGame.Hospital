@@ -19,7 +19,7 @@ namespace ProGame.Hospital.Tests.ServicesTests
         }
 
         [Test]
-        public void GetPatientById()
+        public async Task GetPatientById()
         {
             var patientService = DependenciesResolver.Kernel.GetService<IPatientService>();
 
@@ -30,22 +30,22 @@ namespace ProGame.Hospital.Tests.ServicesTests
                 PhoneNumber = "+12345678910"
             };
 
-            var result = patientService.AddPatientAsync(patient);
-            var patientDb = patientService.GetPatientByIdAsync(result.Result.Value ?? 0);
-            patientService.DeletePatientByIdAsync(patientDb.Id);
+            var result = await patientService.AddPatientAsync(patient);
+            var patientDb = await patientService.GetPatientByIdAsync(result.Value ?? 0);
+            await patientService.DeletePatientByIdAsync(patientDb.Value.Id);
 
             Assert.IsNotNull(patientDb);
-            Assert.AreEqual(result.Result.Value, patientDb.Id);
-            Assert.AreEqual(patient.FullName, patientDb.Result.Value.FullName);
-            Assert.AreEqual(patient.Email, patientDb.Result.Value.Email);
-            Assert.AreEqual(patient.PhoneNumber, patientDb.Result.Value.PhoneNumber);
+            Assert.AreEqual(result.Value, patientDb.Value.Id);
+            Assert.AreEqual(patient.FullName, patientDb.Value.FullName);
+            Assert.AreEqual(patient.Email, patientDb.Value.Email);
+            Assert.AreEqual(patient.PhoneNumber, patientDb.Value.PhoneNumber);
             Assert.Pass();
         }
 
 
 
         [Test]
-        public void GetDoctorById()
+        public async Task GetDoctorById()
         {
             var doctorService = DependenciesResolver.Kernel.GetService<IDoctorService>();
 
@@ -57,21 +57,21 @@ namespace ProGame.Hospital.Tests.ServicesTests
                 Speciality = Specialities.Dentist
             };
 
-            var result = doctorService.AddDoctorAsync(doctor);
-            var doctorDb = doctorService.GetDoctorByIdAsync(result.Result.Value ?? 0);
-            doctorService.DeleteDoctorByIdAsync(doctorDb.Id);
+            var result = await doctorService.AddDoctorAsync(doctor);
+            var doctorDb = await doctorService.GetDoctorByIdAsync(result.Value ?? 0);
+            await doctorService.DeleteDoctorByIdAsync(doctorDb.Value.Id);
 
             Assert.IsNotNull(doctorDb);
-            Assert.AreEqual(result.Result.Value, doctorDb.Id);
-            Assert.AreEqual(doctor.FullName, doctorDb.Result.Value.FullName);
-            Assert.AreEqual(doctor.Email, doctorDb.Result.Value.Email);
-            Assert.AreEqual(doctor.PhoneNumber, doctorDb.Result.Value.PhoneNumber);
-            Assert.AreEqual(doctor.Speciality, doctorDb.Result.Value.Speciality);
+            Assert.AreEqual(result.Value, doctorDb.Value.Id);
+            Assert.AreEqual(doctor.FullName, doctorDb.Value.FullName);
+            Assert.AreEqual(doctor.Email, doctorDb.Value.Email);
+            Assert.AreEqual(doctor.PhoneNumber, doctorDb.Value.PhoneNumber);
+            Assert.AreEqual(doctor.Speciality, doctorDb.Value.Speciality);
             Assert.Pass();
         }
 
         [Test]
-        public void GetRecordById()
+        public async Task GetRecordById()
         {
             var recordService = DependenciesResolver.Kernel.GetService<IRecordService>();
 
@@ -95,15 +95,15 @@ namespace ProGame.Hospital.Tests.ServicesTests
                 }
             };
 
-            var result = recordService.AddRecordAsync(record);
-            var recordDb = recordService.GetRecordByIdAsync(result.Result.Value ?? 0);
-            recordService.DeleteRecordByIdAsync(recordDb.Id);
+            var result = await recordService.AddRecordAsync(record);
+            var recordDb = await recordService.GetRecordByIdAsync(result.Value ?? 0);
+            await recordService.DeleteRecordByIdAsync(recordDb.Value.Id);
 
             Assert.IsNotNull(recordDb);
-            Assert.AreEqual(result.Result.Value, recordDb.Id);
-            Assert.AreEqual(record.Date, recordDb.Result.Value.Date);
-            Assert.AreEqual(record.Patient.Id, recordDb.Result.Value.Patient.Id);
-            Assert.AreEqual(record.Doctor.Id, recordDb.Result.Value.Doctor.Id);
+            Assert.AreEqual(result.Value, recordDb.Value.Id);
+            Assert.AreEqual(record.Date, recordDb.Value.Date);
+            Assert.AreEqual(record.Patient.Id, recordDb.Value.Patient.Id);
+            Assert.AreEqual(record.Doctor.Id, recordDb.Value.Doctor.Id);
             Assert.Pass();
         }
 

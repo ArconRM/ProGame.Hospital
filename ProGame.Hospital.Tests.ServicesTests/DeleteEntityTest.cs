@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using ProGame.HospitalAPI.BLL.Interfaces;
@@ -15,7 +16,7 @@ namespace ProGame.Hospital.Tests.ServicesTests
         }
 
         [Test]
-        public void DeletePatient()
+        public async Task DeletePatient()
         {
             var patientService = DependenciesResolver.Kernel.GetService<IPatientService>();
 
@@ -26,16 +27,16 @@ namespace ProGame.Hospital.Tests.ServicesTests
                 PhoneNumber = "+12345678910"
             };
 
-            var result = patientService.AddPatientAsync(patient);
-            patient.Id = result.Result.Value ?? 0;
-            patientService.DeletePatientByIdAsync(patient.Id);
-            var patientDb = patientService.GetPatientByIdAsync(result.Result.Value ?? 0);
+            var result = await patientService.AddPatientAsync(patient);
+            patient.Id = result.Value ?? 0;
+            await patientService.DeletePatientByIdAsync(patient.Id);
+            var patientDb = await patientService.GetPatientByIdAsync(result.Value ?? 0);
 
             Assert.IsNull(patientDb);
         }
 
         [Test]
-        public void DeleteDoctor()
+        public async Task DeleteDoctor()
         {
             var doctorService = DependenciesResolver.Kernel.GetService<IDoctorService>();
 
@@ -48,16 +49,16 @@ namespace ProGame.Hospital.Tests.ServicesTests
             };
 
 
-            var result = doctorService.AddDoctorAsync(doctor);
-            doctor.Id = result.Result.Value ?? 0;
-            doctorService.DeleteDoctorByIdAsync(doctor.Id);
-            var doctorDb = doctorService.GetDoctorByIdAsync(result.Result.Value ?? 0);
+            var result = await doctorService.AddDoctorAsync(doctor);
+            doctor.Id = result.Value ?? 0;
+            await doctorService.DeleteDoctorByIdAsync(doctor.Id);
+            var doctorDb = await doctorService.GetDoctorByIdAsync(result.Value ?? 0);
 
             Assert.IsNull(doctorDb);
         }
 
         [Test]
-        public void DeleteRecord()
+        public async Task DeleteRecord()
         {
             var recordService = DependenciesResolver.Kernel.GetService<IRecordService>();
 
@@ -81,10 +82,10 @@ namespace ProGame.Hospital.Tests.ServicesTests
                 }
             };
 
-            var result = recordService.AddRecordAsync(record);
-            record.Id = result.Result.Value ?? 0;
-            recordService.DeleteRecordByIdAsync(record.Id);
-            var recordDb = recordService.GetRecordByIdAsync(result.Result.Value ?? 0);
+            var result = await recordService.AddRecordAsync(record);
+            record.Id = result.Value ?? 0;
+            await recordService.DeleteRecordByIdAsync(record.Id);
+            var recordDb = await recordService.GetRecordByIdAsync(result.Value ?? 0);
 
             Assert.IsNull(recordDb);
         }

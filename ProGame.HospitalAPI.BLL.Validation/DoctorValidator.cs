@@ -23,8 +23,6 @@ namespace ProGame.HospitalAPI.BLL.Validation
 
             RuleFor(d => d.Speciality).NotEmpty().WithMessage("Speciality can't be null");
 
-            RuleFor(d => d.Appointments).NotEmpty().WithMessage("Appointments can't be null");
-
         }
     }
 }

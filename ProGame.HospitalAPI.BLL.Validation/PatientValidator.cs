@@ -21,8 +21,6 @@ namespace ProGame.HospitalAPI.BLL.Validation
             RuleFor(p => p.Email).NotEmpty().WithMessage("Email can't be null")
               .MaximumLength(100).WithMessage("Email length must be under 200");
 
-            RuleFor(p => p.Appointments).NotEmpty().WithMessage("Appointments can't be null");
-
         }
     }
 }

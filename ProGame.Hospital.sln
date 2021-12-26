@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProGame.HospitalAPI.Common.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProGame.HospitalAPI.API", "ProGame.HospitalAPI.API\ProGame.HospitalAPI.API.csproj", "{7734E8BC-13DB-4DD6-9A8F-4F57C3F1EC9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProGame.HospitalAPI.BLL.Validation", "ProGame.HospitalAPI.BLL.Validation\ProGame.HospitalAPI.BLL.Validation.csproj", "{9D35C3FC-69CA-4963-99A3-B79C29AB2757}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProGame.HospitalAPI.BLL.Validation", "ProGame.HospitalAPI.BLL.Validation\ProGame.HospitalAPI.BLL.Validation.csproj", "{9D35C3FC-69CA-4963-99A3-B79C29AB2757}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
