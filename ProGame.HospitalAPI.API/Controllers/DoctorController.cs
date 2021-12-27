@@ -18,7 +18,7 @@ namespace ProGame.HospitalAPI.API.Controllers
         }
 
         [HttpGet("GetDoctorById/{id}")]
-        public async Task<Response<Doctor>> GetDoctorById(int id)
+        public async Task<Response<Doctor>> GetDoctorByIdAsync(int id)
         {
             return await GetResponseFromResultAsync(() => _doctorService.GetDoctorByIdAsync(id));
         }
@@ -42,7 +42,7 @@ namespace ProGame.HospitalAPI.API.Controllers
         }
 
         [HttpDelete("DeleteDoctorById/{id}")]
-        public async Task<BaseResponse> DeleteDoctorById(int id)
+        public async Task<BaseResponse> DeleteDoctorByIdAsync(int id)
         {
             return await GetResponseFromResultAsync(() => _doctorService.DeleteDoctorByIdAsync(id));
         }
