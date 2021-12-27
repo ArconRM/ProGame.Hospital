@@ -8,7 +8,6 @@ namespace ProGame.HospitalAPI.API.Controllers
 {
     public abstract class BaseController
     {
-        protected readonly ILogger<BaseController> _logger;
         protected async Task<Response<T>> GetResponseFromResultAsync<T>(Func<Task<ActionResult<T>>> func)
         {
             var result = await func();

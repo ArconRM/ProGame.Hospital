@@ -34,6 +34,8 @@ namespace ProGame.HospitalAPI.Common.DependenciesInjection
             _services.AddTransient<IPatientService, PatientService>();
             _services.AddTransient<IRecordService, RecordService>();
 
+            
+
             return _services.BuildServiceProvider();
         }
     }

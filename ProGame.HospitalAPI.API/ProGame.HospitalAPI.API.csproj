@@ -10,6 +10,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ProGame.HospitalAPI.BLL.Interfaces\ProGame.HospitalAPI.BLL.Interfaces.csproj" />
+    <ProjectReference Include="..\Progame.HospitalAPI.BLL\Progame.HospitalAPI.BLL.csproj" />
+    <ProjectReference Include="..\ProGame.HospitalAPI.DAL\ProGame.HospitalAPI.DAL.csproj" />
   </ItemGroup>
 
 </Project>

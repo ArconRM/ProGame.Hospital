@@ -2,6 +2,7 @@
 using ProGame.HospitalAPI.API.ViewModels;
 using ProGame.HospitalAPI.BLL.Interfaces;
 using ProGame.HospitalAPI.Common.Entities;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ProGame.HospitalAPI.API.Controllers
@@ -23,7 +24,7 @@ namespace ProGame.HospitalAPI.API.Controllers
         }
 
         [HttpGet("GetDoctors")]
-        public async Task<BaseResponse> GetAllDoctorsAsync()
+        public async Task<Response<IEnumerable<Doctor>>> GetAllDoctorsAsync()
         {
             return await GetResponseFromResultAsync(() => _doctorService.GetAllDoctorsAsync());
         }

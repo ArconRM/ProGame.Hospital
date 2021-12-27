@@ -7,6 +7,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Progame.HospitalAPI.BLL;
+using ProGame.HospitalAPI.BLL.Interfaces;
+using ProGame.HospitalAPI.DAL;
+using ProGame.HospitalAPI.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +36,15 @@ namespace ProGame.HospitalAPI.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProGame.HospitalAPI.API", Version = "v1" });
             });
+            services.AddScoped<IAppointmentDAO, AppointmentDAO>();
+            services.AddScoped<IDoctorDAO, DoctorDAO>();
+            services.AddScoped<IPatientDAO, PatientDAO>();
+            services.AddScoped<IRecordDAO, RecordDAO>();
+
+            services.AddScoped<IAppointmentService, AppointmentService>();
+            services.AddScoped<IDoctorService, DoctorService>();
+            services.AddScoped<IPatientService, PatientService>();
+            services.AddScoped<IRecordService, RecordService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
