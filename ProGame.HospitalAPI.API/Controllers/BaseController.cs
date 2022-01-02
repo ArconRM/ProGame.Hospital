@@ -11,7 +11,7 @@ namespace ProGame.HospitalAPI.API.Controllers
         protected async Task<Response<T>> GetResponseFromResultAsync<T>(Func<Task<ActionResult<T>>> func)
         {
             var result = await func();
-            if (result.Value is null)
+            if (result.Value is null or false)
             {
                 return Response<T>.GetErrorResponse(result.Exceptions);
             } 

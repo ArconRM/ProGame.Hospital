@@ -81,7 +81,7 @@ namespace ProGame.Hospital.Tests.ServicesTests
                 Date = new DateTime(2021, 12, 05),
                 Doctor = new Doctor()
                 {
-                    Id = 1,
+                    Id = 4,
                     FullName = "John",
                     Email = "asdfghjk@gmail.com",
                     PhoneNumber = "+12345678910",

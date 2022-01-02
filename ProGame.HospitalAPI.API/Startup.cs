@@ -9,11 +9,13 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Progame.HospitalAPI.BLL;
 using ProGame.HospitalAPI.BLL.Interfaces;
+using ProGame.HospitalAPI.Common.Entities.Options;
 using ProGame.HospitalAPI.DAL;
 using ProGame.HospitalAPI.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ProGame.HospitalAPI.API
@@ -27,9 +29,14 @@ namespace ProGame.HospitalAPI.API
 
         public IConfiguration Configuration { get; }
 
+        public string HospitalDBConnectionString { get; set; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers()
+                .AddJsonOptions(o => o.JsonSerializerOptions
+                    .ReferenceHandler = ReferenceHandler.Preserve);
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -45,6 +52,10 @@ namespace ProGame.HospitalAPI.API
             services.AddScoped<IDoctorService, DoctorService>();
             services.AddScoped<IPatientService, PatientService>();
             services.AddScoped<IRecordService, RecordService>();
+
+            IConfigurationSection connectionSection = Configuration.GetSection("Connectionstrings");
+            string connectionString = connectionSection.GetValue<string>("ConnectionStringHospital");
+            services.Configure<OptionsBaseDAO>(options => options.ConnectionString = connectionString);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

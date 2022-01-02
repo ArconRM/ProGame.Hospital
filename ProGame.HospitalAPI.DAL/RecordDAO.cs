@@ -1,4 +1,6 @@
-﻿using ProGame.HospitalAPI.Common.Entities;
+﻿using Microsoft.Extensions.Options;
+using ProGame.HospitalAPI.Common.Entities;
+using ProGame.HospitalAPI.Common.Entities.Options;
 using ProGame.HospitalAPI.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -14,11 +16,9 @@ namespace ProGame.HospitalAPI.DAL
     {
         private static string _connectionString;
 
-
-
-        public RecordDAO()
+        public RecordDAO(IOptions<OptionsBaseDAO> options)
         {
-            _connectionString = "Data Source=DESKTOP-ATJ1BBO;Initial Catalog=HospitalDB;Integrated Security=True";
+            _connectionString = options.Value.ConnectionString;
         }
 
         public async Task<int> AddRecordAsync(Record record)

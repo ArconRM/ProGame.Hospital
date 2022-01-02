@@ -8,6 +8,8 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProGame.HospitalAPI.Common.Entities.Options;
+using Microsoft.Extensions.Options;
 
 namespace ProGame.HospitalAPI.DAL
 {
@@ -15,9 +17,9 @@ namespace ProGame.HospitalAPI.DAL
     {
         private static string _connectionString;
 
-        public AppointmentDAO()
+        public AppointmentDAO(IOptions<OptionsBaseDAO> options)
         {
-            _connectionString = "Data Source=DESKTOP-ATJ1BBO;Initial Catalog=HospitalDB;Integrated Security=True";
+            _connectionString = options.Value.ConnectionString;
         }
 
         public async Task UpdateAppointmentAsync(Appointment appointment)
