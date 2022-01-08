@@ -53,7 +53,7 @@ namespace ProGame.HospitalAPI.API
             services.AddScoped<IPatientService, PatientService>();
             services.AddScoped<IRecordService, RecordService>();
 
-            IConfigurationSection connectionSection = Configuration.GetSection("Connectionstrings");
+            IConfigurationSection connectionSection = Configuration.GetSection("ConnectionStrings");
             string connectionString = connectionSection.GetValue<string>("ConnectionStringHospital");
             services.Configure<OptionsBaseDAO>(options => options.ConnectionString = connectionString);
         }
